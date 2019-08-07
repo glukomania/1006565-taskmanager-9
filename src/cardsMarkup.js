@@ -1,11 +1,5 @@
 'use strict';
 
-const cardData = [
-  {text: `Example default task with default color.`, date: `23 September`, time: `11:15 PM`, tags: [`#todo`, `#personal`, `#important`]},
-  {text: `Example default task with custom color.`, date: `23 September`, time: `11:15 PM`, tags: [`#todo`, `#personal`, `#important`]},
-  {text: `Example default task with custom color and without date.`, date: `23 September`, time: `11:15 PM`, tags: [`#todo`, `#personal`, `#important`]},
-];
-
 const getCardMarkup = ({text, date = ``, time = ``, tags = []} = {}) => `
   <article class="card">
     <div class="card__form">
@@ -78,4 +72,5 @@ const getHashTagList = (tagsList) => {
 `;
 };
 
-window.cardsMarkup = cardData.map(getCardMarkup).join(`\n`);
+
+window.cardsMarkup = window.data.cardData.map(getCardMarkup).join(`\n`);
