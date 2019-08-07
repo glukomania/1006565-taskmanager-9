@@ -13,7 +13,7 @@ const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
 
     <label for="filter__${id}" class="filter__label">
       ${name.toUpperCase()}
-      <span class="filter__all-count">${count}</span>
+      <span class="filter__${id}-count">${count}</span>
     </label>`.trim();
 };
 
