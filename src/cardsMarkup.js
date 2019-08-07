@@ -1,6 +1,20 @@
 'use strict';
 
-const getCardMarkup = ({text, date = ``, time = ``, tags = []} = {}) => `
+const dateFormat = new Intl.DateTimeFormat('en-GB', {
+  month: `long`,
+  day: `numeric`,
+});
+
+const timeFormat = new Intl.DateTimeFormat('en-GB', {
+  hour12: true,
+  hour: `numeric`,
+  minute: `numeric`,
+});
+
+const formatDate = (date) => dateFormat.format(date).toUpperCase();
+const formatTime = (date) => timeFormat.format(date);
+
+const getCardMarkup = ({text, date, tags = []} = {}) => `
   <article class="card">
     <div class="card__form">
       <div class="card__inner">
@@ -44,15 +58,15 @@ const getTextArea = (cardText) => {
 };
 
 
-const getDateMarkup = (date, time) => `
-<div class="card__dates">
-  <div class="card__date-deadline">
-    <p class="card__input-deadline-wrap">
-      <span class="card__date">${date}</span>
-      <span class="card__time">${time}</span>
-    </p>
-  </div>
-</div>`;
+const getDateMarkup = (date) => `
+  <div class="card__dates">
+    <div class="card__date-deadline">
+      <p class="card__input-deadline-wrap">
+        <span class="card__date">${formatDate(date)}</span>
+        <span class="card__time">${formatTime(date)}</span>
+      </p>
+    </div>
+  </div>`;
 
 const hashTagMarkup = (tagsList = []) => `
 <span class="card__hashtag-inner">
