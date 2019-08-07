@@ -40,8 +40,6 @@
   <a href="#" class="board__filter">SORT BY DATE down</a>
   </div>`;
 
-
-
   // function that adds a new element with inner html
 
   const menuPlace = document.querySelector(`.main__control`);
@@ -53,30 +51,30 @@
     container.appendChild(section);
   };
 
-  // add menu
+  // add menu component
 
   addSection(menuPlace, `section`, menuHtml, `control__btn-wrap`);
 
-  // add search field
+  // add search field component
 
   addSection(sectionsPlace, `section`, searchHtml, `main__search search container`);
 
-  // add filters
+  // add filters component
 
   addSection(sectionsPlace, `section`, window.filterMarkup, `main__filter filter container`);
 
-  // add sorting menu
+  // add sorting menu component
 
   addSection(sectionsPlace, `section`, sortHtml, `board container`);
 
-  // add cards container
+  // add cards and add/edit container
 
   const cardsContainerPlace = document.querySelector(`.board`);
 
-  //edit
+  // edit component
   addSection(cardsContainerPlace, `div`, window.addEditMarkup, `board__tasks`);
 
-  // add cards
+  // add cards component
   const cardsPlace = document.querySelector(`.board__tasks`);
   addSection(cardsPlace, `div`, window.cardsMarkup, `board__tasks`);
 
