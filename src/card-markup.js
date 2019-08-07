@@ -1,11 +1,11 @@
 'use strict';
 
-const dateFormat = new Intl.DateTimeFormat('en-GB', {
+const dateFormat = new Intl.DateTimeFormat(`en-GB`, {
   month: `long`,
   day: `numeric`,
 });
 
-const timeFormat = new Intl.DateTimeFormat('en-GB', {
+const timeFormat = new Intl.DateTimeFormat(`en-GB`, {
   hour12: true,
   hour: `numeric`,
   minute: `numeric`,
@@ -37,7 +37,7 @@ const getHashTagMarkup = (name) => `
 const getHashTagListMarkup = (tags) => `
   <div class="card__hashtag">
     <div class="card__hashtag-list">
-      ${tags.map(getHashTagMarkup).join('\n')}
+      ${tags.map(getHashTagMarkup).join(`\n`)}
     </div>
   </div>`.trim();
 
@@ -77,4 +77,4 @@ const getCardMarkup = ({text, date, tags = []} = {}) => `
     </div>
   </article>`;
 
-window.cardsMarkup = window.data.cardData.map(getCardMarkup).join(`\n`)
+window.cardsMarkup = window.data.cardData.map(getCardMarkup).join(`\n`);
