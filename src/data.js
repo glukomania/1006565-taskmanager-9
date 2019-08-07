@@ -2,9 +2,20 @@
 
 window.data = {
   cardData: [
-    {text: `Example default task with default color.`, date: `23 September`, time: `11:15 PM`, tags: [`#todo`, `#personal`, `#important`]},
-    {text: `Example default task with custom color.`, date: `23 September`, time: `11:15 PM`, tags: [`#todo`, `#personal`, `#important`]},
-    {text: `Example default task with custom color and without date.`, date: `23 September`, time: `11:15 PM`, tags: [`#todo`, `#personal`, `#important`]},
+    {
+      text: `Example 1`,
+      date: Date.now(),
+      tags: [`#todo`, `#personal`, `#important`]
+    },
+    {
+      text: `Example 2`,
+      date: Date.now(),
+      tags: [`#tag1`, `#tag2`]
+    },
+    {
+      text: `Example 3`,
+      date: Date.now(),
+    },
   ],
 
   filterElements: [
