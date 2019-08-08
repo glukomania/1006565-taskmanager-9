@@ -1,5 +1,3 @@
-'use strict';
-
 const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
   const id = name.toLowerCase();
   return `
@@ -22,5 +20,6 @@ const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
 
 const getMarkup = (dataList, generator) => dataList.map(generator).join(`\n`);
 
-window.filterMarkup = getMarkup(window.data.filterElements, getFilterMarkup);
+const filterMarkup = getMarkup(window.data.filterElements, getFilterMarkup);
 
+export {filterMarkup};

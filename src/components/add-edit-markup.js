@@ -1,5 +1,3 @@
-'use strict';
-
 const data = [
   {cardColor: `black`, isAdd: true, cardText: `test`, isDate: `yes`, dayRepeat: `4`},
 ];
@@ -276,4 +274,6 @@ const editHtml = ({cardColor = ``, isAdd = false, cardText = ``, isDate = `no`, 
           </article>
 `;
 
-window.addEditMarkup = data.map(editHtml);
+const addEditMarkup = data.map(editHtml);
+
+export {addEditMarkup};

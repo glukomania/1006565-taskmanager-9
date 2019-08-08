@@ -1,92 +1,37 @@
-'use strict';
+import {menuMarkup} from "./components/menu-markup.js";
+import {searchMarkup} from "./components/search-markup.js";
+import {filterMarkup} from "./components/filter-markup.js";
+import {sortMarkup} from "./components/sort-markup.js";
+import {addEditMarkup} from "./components/add-edit-markup.js";
+import {cardsMarkup} from "./components/card-markup.js";
 
-(function () {
-  // HTML sections to add:
 
-  const menuHtml = `
-    <input
-      type="radio"
-      name="control"
-      id="control__new-task"
-      class="control__input visually-hidden"
-    />
-    <label for="control__new-task" class="control__label control__label--new-task"
-      >+ ADD NEW TASK</label
-    >
-    <input
-      type="radio"
-      name="control"
-      id="control__task"
-      class="control__input visually-hidden"
-      checked
-    />
-    <label for="control__task" class="control__label">TASKS</label>
-    <input
-      type="radio"
-      name="control"
-      id="control__statistic"
-      class="control__input visually-hidden"
-    />
-    <label for="control__statistic" class="control__label"
-      >STATISTICS</label
-    >`;
+// function that adds a new element with inner html
 
-  const searchHtml = `<input type="text" id="search__input" class="search__input" placeholder="START TYPING — SEARCH BY WORD, #HASHTAG OR DATE" />
-  <label class="visually-hidden" for="search__input">Search</label>`;
+const menuPlace = document.querySelector(`.main__control`);
+const sectionsPlace = document.querySelector(`.main`);
+const addSection = (container, element, html, className) => {
+  const section = document.createElement(element);
+  section.className = className;
+  section.innerHTML = html;
+  container.appendChild(section);
+};
 
-  const sortHtml = `<div class="board__filter-list">
-  <a href="#" class="board__filter">SORT BY DEFAULT</a>
-  <a href="#" class="board__filter">SORT BY DATE up</a>
-  <a href="#" class="board__filter">SORT BY DATE down</a>
-  </div>`;
 
-  // function that adds a new element with inner html
+addSection(menuPlace, `section`, menuMarkup, `control__btn-wrap`);
+addSection(sectionsPlace, `section`, searchMarkup, `main__search search container`);
+addSection(sectionsPlace, `section`, filterMarkup, `main__filter filter container`);
+addSection(sectionsPlace, `section`, sortMarkup, `board container`);
 
-  const menuPlace = document.querySelector(`.main__control`);
-  const sectionsPlace = document.querySelector(`.main`);
-  const addSection = (container, element, html, className) => {
-    const section = document.createElement(element);
-    section.className = className;
-    section.innerHTML = html;
-    container.appendChild(section);
-  };
+const cardsContainerPlace = document.querySelector(`.board`);
+addSection(cardsContainerPlace, `div`, addEditMarkup, `board__tasks`);
 
-  // add menu component
+const cardsPlace = document.querySelector(`.board__tasks`);
+addSection(cardsPlace, `div`, cardsMarkup, `board__tasks`);
 
-  addSection(menuPlace, `section`, menuHtml, `control__btn-wrap`);
+// add button 'load more'
 
-  // add search field component
-
-  addSection(sectionsPlace, `section`, searchHtml, `main__search search container`);
-
-  // add filters component
-
-  addSection(sectionsPlace, `section`, window.filterMarkup, `main__filter filter container`);
-
-  // add sorting menu component
-
-  addSection(sectionsPlace, `section`, sortHtml, `board container`);
-
-  // add cards and add/edit container
-
-  const cardsContainerPlace = document.querySelector(`.board`);
-
-  // edit component
-  addSection(cardsContainerPlace, `div`, window.addEditMarkup, `board__tasks`);
-
-  // add cards component
-  const cardsPlace = document.querySelector(`.board__tasks`);
-  addSection(cardsPlace, `div`, window.cardsMarkup, `board__tasks`);
-
-  // const cardsPlace = document.querySelector('.board__tasks');
-  // cardsPlace.innerHTML = window.cardsMarkup;
-  // // addSection(cardsContainerPlace, `div`, window.cardsMarkup, `board__tasks`);
-
-  // add button 'load more'
-
-  addSection(cardsContainerPlace, `button`, null, `load-more`);
-  const button = document.querySelector(`.load-more`);
-  button.textContent = `load more`;
-  button.type = `button`;
-
-})();
+addSection(cardsContainerPlace, `button`, null, `load-more`);
+const button = document.querySelector(`.load-more`);
+button.textContent = `load more`;
+button.type = `button`;
