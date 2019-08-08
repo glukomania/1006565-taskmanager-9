@@ -1,3 +1,5 @@
+import {data} from "../data.js";
+
 const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
   const id = name.toLowerCase();
   return `
@@ -20,6 +22,6 @@ const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
 
 const getMarkup = (dataList, generator) => dataList.map(generator).join(`\n`);
 
-const filterMarkup = getMarkup(window.data.filterElements, getFilterMarkup);
+const filterMarkup = getMarkup(data.filterElements, getFilterMarkup);
 
 export {filterMarkup};

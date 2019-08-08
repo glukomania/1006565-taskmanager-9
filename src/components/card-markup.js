@@ -1,3 +1,5 @@
+import {data} from "../data.js";
+
 const dateFormat = new Intl.DateTimeFormat(`en-GB`, {
   month: `long`,
   day: `numeric`,
@@ -75,6 +77,6 @@ const getCardMarkup = ({text, date, tags = []} = {}) => `
     </div>
   </article>`;
 
-const cardsMarkup = window.data.cardData.map(getCardMarkup).join(`\n`);
+const cardsMarkup = data.cardData.map(getCardMarkup).join(`\n`);
 
 export {cardsMarkup};

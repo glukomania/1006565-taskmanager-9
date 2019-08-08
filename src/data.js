@@ -1,4 +1,4 @@
-window.data = {
+const data = {
   cardData: [
     {
       text: `Example 1`,
@@ -27,3 +27,5 @@ window.data = {
   ],
 
 };
+
+export {data};

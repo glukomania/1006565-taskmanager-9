@@ -18,10 +18,10 @@ const addSection = (container, element, html, className) => {
 };
 
 
-addSection(menuPlace, `section`, menuMarkup, `control__btn-wrap`);
-addSection(sectionsPlace, `section`, searchMarkup, `main__search search container`);
+addSection(menuPlace, `section`, menuMarkup(), `control__btn-wrap`);
+addSection(sectionsPlace, `section`, searchMarkup(), `main__search search container`);
 addSection(sectionsPlace, `section`, filterMarkup, `main__filter filter container`);
-addSection(sectionsPlace, `section`, sortMarkup, `board container`);
+addSection(sectionsPlace, `section`, sortMarkup(), `board container`);
 
 const cardsContainerPlace = document.querySelector(`.board`);
 addSection(cardsContainerPlace, `div`, addEditMarkup, `board__tasks`);
