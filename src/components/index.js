@@ -1,16 +1,15 @@
-import {menuTemplate} from "./menu.js";
-import {searchTemplate} from "./search.js";
-import {getFilterMarkup} from "./filter.js";
-import {sortTemplate} from "./sort.js";
-import {addEditTemplate} from "./add-edit.js";
-import {getCardMarkup} from "./card.js";
+import {menuTemplate} from "./menu";
+import {searchTemplate} from "./search";
+import {getFilterTemplate} from "./filter";
+import {sortTemplate} from "./sort";
+import {addEditTemplate} from "./add-edit";
+import {getCardTemplate} from "./card";
 
 export {
   menuTemplate,
   searchTemplate,
-  getFilterMarkup,
+  getFilterTemplate,
   sortTemplate,
   addEditTemplate,
-  getCardMarkup
+  getCardTemplate
 };
-

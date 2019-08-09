@@ -1,4 +1,4 @@
-const cardData = [
+export const cardData = [
   {
     text: `Example 1`,
     date: Date.now(),
@@ -16,7 +16,7 @@ const cardData = [
 ];
 
 
-const filterElements = [
+export const filterElements = [
   {name: `All`, count: 13, isChecked: true},
   {name: `Overdue`, count: 0},
   {name: `Today`, count: 0},
@@ -26,5 +26,3 @@ const filterElements = [
   {name: `Archive`, count: 115},
 ];
 
-export {cardData};
-export {filterElements};

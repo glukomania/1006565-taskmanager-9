@@ -1,22 +1,22 @@
 import {
   menuTemplate,
   searchTemplate,
-  getFilterMarkup,
+  getFilterTemplate,
   sortTemplate,
   addEditTemplate,
-  getCardMarkup
+  getCardTemplate
 
-} from './components/index.js';
+} from './components/index';
 
 import {
   getMarkup,
   addSection
-} from './render.js';
+} from './render';
 
 import {
   filterElements,
   cardData
-} from './data.js';
+} from './data';
 
 
 const menuPlace = document.querySelector(`.main__control`);
@@ -26,7 +26,7 @@ addSection(menuPlace, `section`, menuTemplate(), `control__btn-wrap`);
 addSection(sectionsPlace, `section`, searchTemplate(), `main__search search container`);
 
 // filters
-const filterTemplate = getMarkup(filterElements, getFilterMarkup);
+const filterTemplate = getMarkup(filterElements, getFilterTemplate);
 addSection(sectionsPlace, `section`, filterTemplate, `main__filter filter container`);
 
 // sorting
@@ -37,7 +37,7 @@ const cardsContainerPlace = document.querySelector(`.board`);
 addSection(cardsContainerPlace, `div`, addEditTemplate, `board__tasks`);
 
 // cards
-const cardsTemplate = getMarkup(cardData, getCardMarkup);
+const cardsTemplate = getMarkup(cardData, getCardTemplate);
 const cardsPlace = document.querySelector(`.board__tasks`);
 addSection(cardsPlace, `div`, cardsTemplate, `board__tasks`);
 

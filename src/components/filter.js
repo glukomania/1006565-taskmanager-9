@@ -1,5 +1,5 @@
 
-const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
+const getFilterTemplate = ({name, count = 0, isChecked = false} = {}) => {
   const id = name.toLowerCase();
   return `
     <input
@@ -16,4 +16,4 @@ const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
     </label>`.trim();
 };
 
-export {getFilterMarkup};
+export {getFilterTemplate};
