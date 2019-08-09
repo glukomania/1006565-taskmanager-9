@@ -1,4 +1,4 @@
-const menuTemplate= () => `
+const menuTemplate = () => `
   <input
     type="radio"
     name="control"
