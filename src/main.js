@@ -1,33 +1,45 @@
-import {menuMarkup} from "./components/menu-markup.js";
-import {searchMarkup} from "./components/search-markup.js";
-import {filterMarkup} from "./components/filter-markup.js";
-import {sortMarkup} from "./components/sort-markup.js";
-import {addEditMarkup} from "./components/add-edit-markup.js";
-import {cardsMarkup} from "./components/card-markup.js";
+import {
+  menuTemplate,
+  searchTemplate,
+  getFilterMarkup,
+  sortTemplate,
+  addEditTemplate,
+  getCardMarkup
 
+} from './components/index.js';
 
-// function that adds a new element with inner html
+import {
+  getMarkup,
+  addSection
+} from './render.js';
+
+import {
+  filterElements,
+  cardData
+} from './data.js';
+
 
 const menuPlace = document.querySelector(`.main__control`);
 const sectionsPlace = document.querySelector(`.main`);
-const addSection = (container, element, html, className) => {
-  const section = document.createElement(element);
-  section.className = className;
-  section.innerHTML = html;
-  container.appendChild(section);
-};
 
+addSection(menuPlace, `section`, menuTemplate(), `control__btn-wrap`);
+addSection(sectionsPlace, `section`, searchTemplate(), `main__search search container`);
 
-addSection(menuPlace, `section`, menuMarkup(), `control__btn-wrap`);
-addSection(sectionsPlace, `section`, searchMarkup(), `main__search search container`);
-addSection(sectionsPlace, `section`, filterMarkup, `main__filter filter container`);
-addSection(sectionsPlace, `section`, sortMarkup(), `board container`);
+// filters
+const filterTemplate = getMarkup(filterElements, getFilterMarkup);
+addSection(sectionsPlace, `section`, filterTemplate, `main__filter filter container`);
 
+// sorting
+addSection(sectionsPlace, `section`, sortTemplate(), `board container`);
+
+// add-edit
 const cardsContainerPlace = document.querySelector(`.board`);
-addSection(cardsContainerPlace, `div`, addEditMarkup, `board__tasks`);
+addSection(cardsContainerPlace, `div`, addEditTemplate, `board__tasks`);
 
+// cards
+const cardsTemplate = getMarkup(cardData, getCardMarkup);
 const cardsPlace = document.querySelector(`.board__tasks`);
-addSection(cardsPlace, `div`, cardsMarkup, `board__tasks`);
+addSection(cardsPlace, `div`, cardsTemplate, `board__tasks`);
 
 // add button 'load more'
 

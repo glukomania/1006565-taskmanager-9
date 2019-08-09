@@ -1,4 +1,4 @@
-const menuMarkup = () => `
+const menuTemplate= () => `
   <input
     type="radio"
     name="control"
@@ -26,5 +26,5 @@ const menuMarkup = () => `
     >STATISTICS</label
   >`;
 
-export {menuMarkup};
+export {menuTemplate};
 

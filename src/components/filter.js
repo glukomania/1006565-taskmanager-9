@@ -1,4 +1,3 @@
-import {data} from "../data.js";
 
 const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
   const id = name.toLowerCase();
@@ -17,11 +16,4 @@ const getFilterMarkup = ({name, count = 0, isChecked = false} = {}) => {
     </label>`.trim();
 };
 
-// вёрстка всех фильтров в виде строки
-// const filterMarkup = filters.map(getFilterMarkup).join(`\n`);
-
-const getMarkup = (dataList, generator) => dataList.map(generator).join(`\n`);
-
-const filterMarkup = getMarkup(data.filterElements, getFilterMarkup);
-
-export {filterMarkup};
+export {getFilterMarkup};

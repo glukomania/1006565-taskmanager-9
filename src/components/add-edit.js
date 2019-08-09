@@ -274,6 +274,6 @@ const editHtml = ({cardColor = ``, isAdd = false, cardText = ``, isDate = `no`, 
           </article>
 `;
 
-const addEditMarkup = data.map(editHtml);
+const addEditTemplate = data.map(editHtml);
 
-export {addEditMarkup};
+export {addEditTemplate};
