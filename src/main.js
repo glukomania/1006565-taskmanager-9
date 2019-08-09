@@ -1,92 +1,49 @@
-'use strict';
+import {
+  menuTemplate,
+  searchTemplate,
+  getFilterTemplate,
+  sortTemplate,
+  addEditTemplate,
+  getCardTemplate
 
-(function () {
-  // HTML sections to add:
+} from './components/index';
 
-  const menuHtml = `
-    <input
-      type="radio"
-      name="control"
-      id="control__new-task"
-      class="control__input visually-hidden"
-    />
-    <label for="control__new-task" class="control__label control__label--new-task"
-      >+ ADD NEW TASK</label
-    >
-    <input
-      type="radio"
-      name="control"
-      id="control__task"
-      class="control__input visually-hidden"
-      checked
-    />
-    <label for="control__task" class="control__label">TASKS</label>
-    <input
-      type="radio"
-      name="control"
-      id="control__statistic"
-      class="control__input visually-hidden"
-    />
-    <label for="control__statistic" class="control__label"
-      >STATISTICS</label
-    >`;
+import {
+  getMarkup,
+  addSection
+} from './render';
 
-  const searchHtml = `<input type="text" id="search__input" class="search__input" placeholder="START TYPING — SEARCH BY WORD, #HASHTAG OR DATE" />
-  <label class="visually-hidden" for="search__input">Search</label>`;
+import {
+  filterElements,
+  cardData
+} from './data';
 
-  const sortHtml = `<div class="board__filter-list">
-  <a href="#" class="board__filter">SORT BY DEFAULT</a>
-  <a href="#" class="board__filter">SORT BY DATE up</a>
-  <a href="#" class="board__filter">SORT BY DATE down</a>
-  </div>`;
 
-  // function that adds a new element with inner html
+const menuPlace = document.querySelector(`.main__control`);
+const sectionsPlace = document.querySelector(`.main`);
 
-  const menuPlace = document.querySelector(`.main__control`);
-  const sectionsPlace = document.querySelector(`.main`);
-  const addSection = (container, element, html, className) => {
-    const section = document.createElement(element);
-    section.className = className;
-    section.innerHTML = html;
-    container.appendChild(section);
-  };
+addSection(menuPlace, `section`, menuTemplate(), `control__btn-wrap`);
+addSection(sectionsPlace, `section`, searchTemplate(), `main__search search container`);
 
-  // add menu component
+// filters
+const filterTemplate = getMarkup(filterElements, getFilterTemplate);
+addSection(sectionsPlace, `section`, filterTemplate, `main__filter filter container`);
 
-  addSection(menuPlace, `section`, menuHtml, `control__btn-wrap`);
+// sorting
+addSection(sectionsPlace, `section`, sortTemplate(), `board container`);
 
-  // add search field component
+// add-edit
+const cardsContainerPlace = document.querySelector(`.board`);
+addSection(cardsContainerPlace, `div`, addEditTemplate, `board__tasks`);
 
-  addSection(sectionsPlace, `section`, searchHtml, `main__search search container`);
+// cards
+const cardsTemplate = getMarkup(cardData, getCardTemplate);
+const cardsPlace = document.querySelector(`.board__tasks`);
+addSection(cardsPlace, `div`, cardsTemplate, `board__tasks`);
 
-  // add filters component
+// add button 'load more'
 
-  addSection(sectionsPlace, `section`, window.filterMarkup, `main__filter filter container`);
-
-  // add sorting menu component
-
-  addSection(sectionsPlace, `section`, sortHtml, `board container`);
-
-  // add cards and add/edit container
-
-  const cardsContainerPlace = document.querySelector(`.board`);
-
-  // edit component
-  addSection(cardsContainerPlace, `div`, window.addEditMarkup, `board__tasks`);
-
-  // add cards component
-  const cardsPlace = document.querySelector(`.board__tasks`);
-  addSection(cardsPlace, `div`, window.cardsMarkup, `board__tasks`);
-
-  // const cardsPlace = document.querySelector('.board__tasks');
-  // cardsPlace.innerHTML = window.cardsMarkup;
-  // // addSection(cardsContainerPlace, `div`, window.cardsMarkup, `board__tasks`);
-
-  // add button 'load more'
-
-  addSection(cardsContainerPlace, `button`, null, `load-more`);
-  const button = document.querySelector(`.load-more`);
-  button.textContent = `load more`;
-  button.type = `button`;
-
-})();
+addSection(cardsContainerPlace, `button`, null, `load-more`);
+const button = document.querySelector(`.load-more`);
+button.textContent = `load more`;
+button.type = `button`;

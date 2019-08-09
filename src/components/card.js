@@ -1,5 +1,3 @@
-'use strict';
-
 const dateFormat = new Intl.DateTimeFormat(`en-GB`, {
   month: `long`,
   day: `numeric`,
@@ -41,7 +39,7 @@ const getHashTagListMarkup = (tags) => `
     </div>
   </div>`.trim();
 
-const getCardMarkup = ({text, date, tags = []} = {}) => `
+const getCardTemplate = ({text, date, tags = []} = {}) => `
   <article class="card">
     <div class="card__form">
       <div class="card__inner">
@@ -77,4 +75,4 @@ const getCardMarkup = ({text, date, tags = []} = {}) => `
     </div>
   </article>`;
 
-window.cardsMarkup = window.data.cardData.map(getCardMarkup).join(`\n`);
+export {getCardTemplate};
