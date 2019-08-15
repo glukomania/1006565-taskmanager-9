@@ -1,5 +1,3 @@
-import {getCardData} from "../data";
-
 import {
   formatDate,
   formatTime,
@@ -282,7 +280,5 @@ const getAddEditMarkup = ({description, dueDate, isRepeatingDays, repeatingDays,
     </form>
   </article>
 `;
-
-
 
 export {getAddEditMarkup};

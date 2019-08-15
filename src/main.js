@@ -16,7 +16,7 @@ import {
 
 import {
   filterElements,
-  getCardData
+  cards
 } from './data';
 
 
@@ -38,17 +38,16 @@ const cardsContainerPlace = document.querySelector(`.board`);
 addSection(cardsContainerPlace, `div`, null, `board__tasks`);
 const cardsPlace = document.querySelector(`.board__tasks`);
 
-
-const addEditBlock = getCardData().map(getAddEditMarkup);
+let cardToEdit = [];
+cardToEdit.push(cards[0]);
+const addEditBlock = cardToEdit.map(getAddEditMarkup);
 insertSection(cardsPlace, addEditBlock, `beforeend`);
 
 // cards
 
-for (let i = 0; i < 3; i++) {
-  const newCard = getCardData();
-  const cardsTemplate = getMarkup(newCard, getCardTemplate);
-  insertSection(cardsPlace, cardsTemplate, `beforeend`);
-}
+const cardsTemplate = getMarkup(cards, getCardTemplate);
+insertSection(cardsPlace, cardsTemplate, `beforeend`);
+
 
 // add button 'load more'
 

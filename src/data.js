@@ -12,29 +12,34 @@ const getRandomElement = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-const getCardData = () => cardData;
+const card = {
+  description: descriptions[getRandomElement(1, 3)],
+  dueDate: parseInt(Date.now(), 10) - getRandomElement(100000, 1000000),
+  isRepeatingDays: false,
+  repeatingDays: {
+    Mo: false,
+    Tu: true,
+    We: false,
+    Th: false,
+    Fr: false,
+    Sa: false,
+    Su: false
+  },
+  tags,
+  color: colors[getRandomElement(0, 5)],
+  isFavorite,
+  isArchive,
+};
 
-const cardData = [
-  {
-    description: descriptions[getRandomElement(1, 3)],
-    dueDate: parseInt(Date.now(), 10) - getRandomElement(100000, 1000000),
-    isRepeatingDays: false,
-    repeatingDays: {
-      Mo: false,
-      Tu: true,
-      We: false,
-      Th: false,
-      Fr: false,
-      Sa: false,
-      Su: false
-    },
-    tags,
-    color: colors[getRandomElement(0, 5)],
-    isFavorite,
-    isArchive,
+const getAllCards = (cardArray) => {
+  const cards = [];
+  for (let i = 0; i < 5; i++) {
+    cards.push(cardArray);
   }
-];
+  return cards;
+};
 
+const cards = getAllCards(card);
 
 export const filterElements = [
   {name: `All`, count: 13, isChecked: true},
@@ -48,5 +53,5 @@ export const filterElements = [
 
 
 export {
-  getCardData};
+  cards};
 
