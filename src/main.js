@@ -3,19 +3,20 @@ import {
   searchTemplate,
   getFilterTemplate,
   sortTemplate,
-  addEditTemplate,
+  getAddEditMarkup,
   getCardTemplate
 
 } from './components/index';
 
 import {
   getMarkup,
-  addSection
+  addSection,
+  insertSection
 } from './render';
 
 import {
   filterElements,
-  cardData
+  getCardData
 } from './data';
 
 
@@ -34,12 +35,20 @@ addSection(sectionsPlace, `section`, sortTemplate(), `board container`);
 
 // add-edit
 const cardsContainerPlace = document.querySelector(`.board`);
-addSection(cardsContainerPlace, `div`, addEditTemplate, `board__tasks`);
+addSection(cardsContainerPlace, `div`, null, `board__tasks`);
+const cardsPlace = document.querySelector(`.board__tasks`);
+
+
+const addEditBlock = getCardData().map(getAddEditMarkup);
+insertSection(cardsPlace, addEditBlock, `beforeend`);
 
 // cards
-const cardsTemplate = getMarkup(cardData, getCardTemplate);
-const cardsPlace = document.querySelector(`.board__tasks`);
-addSection(cardsPlace, `div`, cardsTemplate, `board__tasks`);
+
+for (let i = 0; i < 3; i++) {
+  const newCard = getCardData();
+  const cardsTemplate = getMarkup(newCard, getCardTemplate);
+  insertSection(cardsPlace, cardsTemplate, `beforeend`);
+}
 
 // add button 'load more'
 

@@ -11,4 +11,12 @@ const addSection = (container, element, html, className) => {
   container.appendChild(section);
 };
 
-export {addSection, getMarkup};
+const insertSection = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};
+
+export {
+  addSection,
+  getMarkup,
+  insertSection
+};

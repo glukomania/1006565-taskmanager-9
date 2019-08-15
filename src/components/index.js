@@ -2,7 +2,7 @@ import {menuTemplate} from "./menu";
 import {searchTemplate} from "./search";
 import {getFilterTemplate} from "./filter";
 import {sortTemplate} from "./sort";
-import {addEditTemplate} from "./add-edit";
+import {getAddEditMarkup} from "./add-edit";
 import {getCardTemplate} from "./card";
 
 export {
@@ -10,6 +10,6 @@ export {
   searchTemplate,
   getFilterTemplate,
   sortTemplate,
-  addEditTemplate,
+  getAddEditMarkup,
   getCardTemplate
 };

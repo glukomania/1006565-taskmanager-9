@@ -1,16 +1,8 @@
-const dateFormat = new Intl.DateTimeFormat(`en-GB`, {
-  month: `long`,
-  day: `numeric`,
-});
 
-const timeFormat = new Intl.DateTimeFormat(`en-GB`, {
-  hour12: true,
-  hour: `numeric`,
-  minute: `numeric`,
-});
-
-const formatDate = (date) => dateFormat.format(date).toUpperCase();
-const formatTime = (date) => timeFormat.format(date);
+import {
+  formatDate,
+  formatTime,
+} from "../getDateFormat.js";
 
 const getTextArea = (text) => `
   <div class="card__textarea-wrap">
@@ -39,20 +31,20 @@ const getHashTagListMarkup = (tags) => `
     </div>
   </div>`.trim();
 
-const getCardTemplate = ({text, date, tags = []} = {}) => `
-  <article class="card">
+const getCardTemplate = ({description, dueDate, tags = [], color, isFavorite, isArchive} = {}) => `
+  <article class="card card--${color}">
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
           <button type="button" class="card__btn card__btn--edit">
             edit
           </button>
-          <button type="button" class="card__btn card__btn--archive">
+          <button type="button" class="card__btn card__btn--archive ${isArchive ? `` : `card__btn--disabled`}">
             archive
           </button>
           <button
             type="button"
-            class="card__btn card__btn--favorites card__btn--disabled">
+            class="card__btn card__btn--favorites ${isFavorite ? `` : `card__btn--disabled`}">
               favorites
           </button>
         </div>
@@ -63,11 +55,11 @@ const getCardTemplate = ({text, date, tags = []} = {}) => `
           </svg>
         </div>
 
-        ${getTextArea(text)}
+        ${getTextArea(description)}
 
         <div class="card__settings">
           <div class="card__details">
-            ${getDateMarkup(date)}
+            ${getDateMarkup(dueDate)}
             ${tags.length > 0 ? getHashTagListMarkup(tags) : ``}
           </div>
         </div>
