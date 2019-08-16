@@ -1,11 +1,13 @@
+import {countCards} from "./utils";
+
 const descriptions = [
   `Study history`,
   `Make my hometasks`,
   `Get 100%`,
 ];
-const tags = [`homework`, `theory`, `practice`];
+const tags = [`homework`, `theory`, `practice`, `cat`, `baby`, `js`, `work`];
 const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
-const isFavorite = false;
+const isFavorite = true;
 const isArchive = false;
 
 const getRandomElement = (min, max) => {
@@ -14,7 +16,7 @@ const getRandomElement = (min, max) => {
 
 const card = {
   description: descriptions[getRandomElement(1, 3)],
-  dueDate: parseInt(Date.now(), 10) - getRandomElement(100000, 1000000),
+  dueDate: parseInt(Date.now(), 10) - getRandomElement(100000, 5000000),
   isRepeatingDays: false,
   repeatingDays: {
     Mo: false,
@@ -25,15 +27,16 @@ const card = {
     Sa: false,
     Su: false
   },
-  tags,
+  tags: [tags[getRandomElement(1, 3)], tags[getRandomElement(1, 3)], tags[getRandomElement(1, 3)]],
   color: colors[getRandomElement(0, 5)],
   isFavorite,
   isArchive,
 };
 
+
 const getAllCards = (cardArray) => {
   const cards = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 15; i++) {
     cards.push(cardArray);
   }
   return cards;
@@ -41,17 +44,19 @@ const getAllCards = (cardArray) => {
 
 const cards = getAllCards(card);
 
-export const filterElements = [
-  {name: `All`, count: 13, isChecked: true},
+const filterElements = [
+  {name: `All`, count: cards.length, isChecked: true},
   {name: `Overdue`, count: 0},
   {name: `Today`, count: 0},
-  {name: `Favorites`, count: 1},
-  {name: `Repeating`, count: 1},
-  {name: `Tags`, count: 1},
-  {name: `Archive`, count: 115},
+  {name: `Favorites`, count: countCards(cards, `isFavorite`)},
+  {name: `Repeating`, count: countCards(cards, `isRepeatingDays`)},
+  {name: `Tags`, count: tags.length},
+  {name: `Archive`, count: countCards(cards, `isArchive`)},
 ];
 
 
 export {
-  cards};
+  cards,
+  filterElements
+};
 

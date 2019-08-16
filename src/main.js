@@ -11,8 +11,9 @@ import {
 import {
   getMarkup,
   addSection,
-  insertSection
-} from './render';
+  insertSection,
+  renderCards
+} from './utils';
 
 import {
   filterElements,
@@ -43,9 +44,9 @@ cardToEdit.push(cards[0]);
 const addEditBlock = cardToEdit.map(getAddEditMarkup);
 insertSection(cardsPlace, addEditBlock, `beforeend`);
 
-// cards
-
-const cardsTemplate = getMarkup(cards, getCardTemplate);
+// cards to show
+let cardsToShow = renderCards(cards, 0, 5);
+const cardsTemplate = getMarkup(cardsToShow, getCardTemplate);
 insertSection(cardsPlace, cardsTemplate, `beforeend`);
 
 
@@ -55,3 +56,20 @@ addSection(cardsContainerPlace, `button`, null, `load-more`);
 const button = document.querySelector(`.load-more`);
 button.textContent = `load more`;
 button.type = `button`;
+
+
+// Load more cards
+
+const onLoadMoreClick = () => {
+  let cardsNumber = cardsToShow.length;
+  const moreCards = renderCards(cards, cardsNumber, 8);
+  cardsNumber = cardsNumber + moreCards.length;
+  const cardsTemplateMore = getMarkup(moreCards, getCardTemplate);
+  insertSection(cardsPlace, cardsTemplateMore, `beforeend`);
+
+  cardsToShow = renderCards(cards, 0, cardsNumber);
+};
+
+const onLoadMoreButton = document.querySelector(`.load-more`);
+onLoadMoreButton.addEventListener(`click`, onLoadMoreClick);
+
