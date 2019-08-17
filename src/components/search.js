@@ -1,4 +1,4 @@
-const searchTemplate = () => `
+const getSearchTemplate = () => `
 <input
   type="text"
   id="search__input"
@@ -9,4 +9,4 @@ const searchTemplate = () => `
   Search
 </label>`;
 
-export {searchTemplate};
+export {getSearchTemplate};

@@ -1,7 +1,25 @@
 import {
-  formatDate,
-  formatTime,
-} from "../getDateFormat.js";
+  cardDate,
+  cardTime,
+} from "./card-date";
+
+const hashtagMarkupPart = (tag) => {
+  return `
+  <span class="card__hashtag-inner">
+    <input
+      type="hidden"
+      name="hashtag"
+      value="repeat"
+      class="card__hashtag-hidden-input"
+    />
+    <p class="card__hashtag-name">
+      #${tag}
+    </p>
+    <button type="button" class="card__hashtag-delete">
+      delete
+    </button>
+</span>`;
+};
 
 const hashContainer = (tags) => {
   const getMarkup = tags.map(hashtagMarkupPart).join(`\n`);
@@ -20,24 +38,6 @@ const hashContainer = (tags) => {
     </label>
   </div>
   `;
-};
-
-const hashtagMarkupPart = (tag) => {
-  return `
-  <span class="card__hashtag-inner">
-    <input
-      type="hidden"
-      name="hashtag"
-      value="repeat"
-      class="card__hashtag-hidden-input"
-    />
-    <p class="card__hashtag-name">
-      #${tag}
-    </p>
-    <button type="button" class="card__hashtag-delete">
-      delete
-    </button>
-</span>`;
 };
 
 const hashtagAdd = () => `
@@ -65,7 +65,7 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
     id="repeat-mo-1}"
     name="repeat"
     value="mo"
-    ${!isAdd && repeatingDays.Mo ? `checked` : ``}
+    ${!isAdd && repeatingDays.mo ? `checked` : ``}
   />
   <label class="card__repeat-day" for="repeat-mo-4"
     >mo</label
@@ -76,7 +76,7 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
     id="repeat-tu-1}"
     name="repeat"
     value="tu"
-    ${!isAdd && repeatingDays.Tu ? `checked` : ``}
+    ${!isAdd && repeatingDays.tu ? `checked` : ``}
   />
   <label class="card__repeat-day" for="repeat-tu-1"
     >tu</label
@@ -87,7 +87,7 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
     id="repeat-we-1"
     name="repeat"
     value="we"
-    ${!isAdd && repeatingDays.We ? `checked` : ``}
+    ${!isAdd && repeatingDays.we ? `checked` : ``}
   />
   <label class="card__repeat-day" for="repeat-we-1"
     >we</label
@@ -98,7 +98,7 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
     id="repeat-th-1"
     name="repeat"
     value="th"
-    ${!isAdd && repeatingDays.Th ? `checked` : ``}
+    ${!isAdd && repeatingDays.th ? `checked` : ``}
   />
   <label class="card__repeat-day" for="repeat-th-1"
     >th</label
@@ -109,7 +109,7 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
     id="repeat-fr-1"
     name="repeat"
     value="fr"
-    ${!isAdd && repeatingDays.Fr ? `checked` : ``}
+    ${!isAdd && repeatingDays.fr ? `checked` : ``}
   />
   <label class="card__repeat-day" for="repeat-fr-1"
     >fr</label
@@ -120,7 +120,7 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
     name="repeat"
     value="sa"
     id="repeat-sa-1"
-    ${!isAdd && repeatingDays.Se ? `checked` : ``}
+    ${!isAdd && repeatingDays.se ? `checked` : ``}
   />
   <label class="card__repeat-day" for="repeat-sa-1"
     >sa</label
@@ -131,7 +131,7 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
     id="repeat-su-1"
     name="repeat"
     value="su"
-    ${!isAdd && repeatingDays.Su ? `checked` : ``}
+    ${!isAdd && repeatingDays.su ? `checked` : ``}
   />
   <label class="card__repeat-day" for="repeat-su-1"
     >su</label
@@ -139,7 +139,7 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
 </div>
 </fieldset>`;
 
-const getAddEditMarkup = ({description, dueDate, isRepeatingDays, repeatingDays, tags, color, isFavorite, isArchive, isAdd = false}) => `
+const getAddEditTemplate = ({description, dueDate, isRepeatingDays, repeatingDays, tags, color, isFavorite, isArchive, isAdd = false}) => `
 <article class="card card--edit card--${isAdd ? `black` : color} ${isAdd ? `` : `card--repeat`}">
   <form class="card__form" method="get">
     <div class="card__inner">
@@ -172,7 +172,7 @@ const getAddEditMarkup = ({description, dueDate, isRepeatingDays, repeatingDays,
         <div class="card__details">
           <div class="card__dates">
             <button class="card__date-deadline-toggle" type="button">
-              date: <span class="card__date-status"> ${isAdd ? `NO` : formatDate(dueDate)}</span>
+              date: <span class="card__date-status"> ${isAdd ? `NO` : cardDate(dueDate)}</span>
             </button>
             ${isAdd ? `` : `
               <fieldset class="card__date-deadline">
@@ -182,7 +182,7 @@ const getAddEditMarkup = ({description, dueDate, isRepeatingDays, repeatingDays,
                     type="text"
                     placeholder=""
                     name="date"
-                    value="${formatTime(dueDate)}"
+                    value="${cardTime(dueDate)}"
                   />
                 </label>
               </fieldset>
@@ -281,4 +281,4 @@ const getAddEditMarkup = ({description, dueDate, isRepeatingDays, repeatingDays,
   </article>
 `;
 
-export {getAddEditMarkup};
+export {getAddEditTemplate};

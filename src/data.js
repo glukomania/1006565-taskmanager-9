@@ -1,48 +1,58 @@
-import {countCards} from "./utils";
+import {
+  countCards,
+  getRandomNumber,
+  getRandomItem,
+  getRandomBool
+} from "./utils";
+import {TaskDay} from "./constants";
+
+const repeatDayReducer = (days, day) => {
+  days[day] = getRandomBool();
+  return days;
+};
+
+const days = Object.values(TaskDay);
+const getRepeatingDays = () => days.reduce(repeatDayReducer, {});
+const setRepeatingDays = getRepeatingDays();
 
 const descriptions = [
-  `Study history`,
-  `Make my hometasks`,
-  `Get 100%`,
+  `To study history`,
+  `To make my hometasks`,
+  `To get 100%`,
+  `To feed the baby`,
+  `To play with a cat`,
+  `To buy some milk`,
+  `To clean the room`
 ];
 const tags = [`homework`, `theory`, `practice`, `cat`, `baby`, `js`, `work`];
 const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
-const isFavorite = true;
-const isArchive = false;
+const isFavorite = getRandomBool();
+const isArchive = getRandomBool();
 
-const getRandomElement = (min, max) => {
-  return Math.floor(Math.random() * (max - min)) + min;
+const getRandomValues = (array, num = 1) =>
+  Array.from({length: num}, () => getRandomItem(array));
+
+const getRandomTags = () =>
+  new Set(getRandomValues(tags, getRandomNumber(1, 5)));
+
+
+const makeTask = () => {
+  return {
+    description: getRandomItem(descriptions),
+    dueDate: Date.now() - getRandomNumber(100000, 5000000),
+    isRepeatingDays: true,
+    repeatingDays: setRepeatingDays,
+    tags: Array.from(getRandomTags()),
+    color: getRandomItem(colors),
+    isFavorite,
+    isArchive,
+  };
 };
 
-const card = {
-  description: descriptions[getRandomElement(1, 3)],
-  dueDate: parseInt(Date.now(), 10) - getRandomElement(100000, 5000000),
-  isRepeatingDays: false,
-  repeatingDays: {
-    Mo: false,
-    Tu: true,
-    We: false,
-    Th: false,
-    Fr: false,
-    Sa: false,
-    Su: false
-  },
-  tags: [tags[getRandomElement(1, 3)], tags[getRandomElement(1, 3)], tags[getRandomElement(1, 3)]],
-  color: colors[getRandomElement(0, 5)],
-  isFavorite,
-  isArchive,
-};
+const getTasks = (num) =>
+  new Array(num).fill(null).map(makeTask);
 
-
-const getAllCards = (cardArray) => {
-  const cards = [];
-  for (let i = 0; i < 15; i++) {
-    cards.push(cardArray);
-  }
-  return cards;
-};
-
-const cards = getAllCards(card);
+const cards = getTasks(50);
 
 const filterElements = [
   {name: `All`, count: cards.length, isChecked: true},

@@ -10,11 +10,11 @@ const timeFormat = new Intl.DateTimeFormat(`en-GB`, {
   minute: `numeric`,
 });
 
-const formatDate = (date) => dateFormat.format(date).toUpperCase();
-const formatTime = (date) => timeFormat.format(date);
+const cardDate = (date) => dateFormat.format(date).toUpperCase();
+const cardTime = (date) => timeFormat.format(date);
 
 
 export {
-  formatDate,
-  formatTime,
+  cardDate,
+  cardTime,
 };

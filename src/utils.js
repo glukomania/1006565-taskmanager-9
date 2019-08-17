@@ -1,5 +1,16 @@
 // utility module
 
+// randomizers
+const getRandomNumber = (min, max) =>
+  Math.floor(Math.random() * (max - min)) + min;
+
+const getRandomItem = (array) =>
+  array[Math.floor(Math.random() * array.length)];
+
+const getRandomBool = (chance = 0.5) =>
+  Math.random() > chance;
+
+
 // gets all html parts together
 const getMarkup = (dataList, generator) => dataList.map(generator).join(`\n`);
 
@@ -13,8 +24,8 @@ const addSection = (container, element, html, className) => {
 
 
 // insert a new block inside an existing selector
-const insertSection = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
+const insertSection = (container, template) => {
+  container.insertAdjacentHTML(`beforeend`, template);
 };
 
 // count cards by filter parameter
@@ -39,5 +50,8 @@ export {
   getMarkup,
   insertSection,
   countCards,
-  renderCards
+  renderCards,
+  getRandomNumber,
+  getRandomItem,
+  getRandomBool
 };

@@ -1,23 +1,10 @@
-
-import {
-  formatDate,
-  formatTime,
-} from "../getDateFormat.js";
+import {getDateTemplate} from "./index";
 
 const getTextArea = (text) => `
   <div class="card__textarea-wrap">
     <p class="card__text">${text}</p>
   </div>`.trim();
 
-const getDateMarkup = (date) => `
-  <div class="card__dates">
-    <div class="card__date-deadline">
-      <p class="card__input-deadline-wrap">
-        <span class="card__date">${formatDate(date)}</span>
-        <span class="card__time">${formatTime(date)}</span>
-      </p>
-    </div>
-  </div>`;
 
 const getHashTagMarkup = (name) => `
   <span class="card__hashtag-inner">
@@ -59,7 +46,7 @@ const getCardTemplate = ({description, dueDate, tags = [], color, isFavorite, is
 
         <div class="card__settings">
           <div class="card__details">
-            ${getDateMarkup(dueDate)}
+            ${getDateTemplate(dueDate)}
             ${tags.length > 0 ? getHashTagListMarkup(tags) : ``}
           </div>
         </div>
