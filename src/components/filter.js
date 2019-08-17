@@ -1,8 +1,6 @@
 import {getMarkup} from "../utils";
 import {filterElements} from "../data";
 
-
-
 const filterBlock = ({name, count = 0, isChecked = false} = {}) => {
   const id = name.toLowerCase();
   return `
