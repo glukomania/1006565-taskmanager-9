@@ -2,18 +2,22 @@ import {
   countCards,
   getRandomNumber,
   getRandomItem,
-  getRandomBool
+  getRandomBool,
+  getRandomValues,
+  countCardsByDate
 } from "./utils";
 import {TaskDay} from "./constants";
+
+// DAYS
 
 const repeatDayReducer = (days, day) => {
   days[day] = getRandomBool();
   return days;
 };
-
 const days = Object.values(TaskDay);
 const getRepeatingDays = () => days.reduce(repeatDayReducer, {});
-const setRepeatingDays = getRepeatingDays();
+
+// DESCRIPTIONS
 
 const descriptions = [
   `To study history`,
@@ -24,49 +28,55 @@ const descriptions = [
   `To buy some milk`,
   `To clean the room`
 ];
-const tags = [`homework`, `theory`, `practice`, `cat`, `baby`, `js`, `work`];
+
+// COLORS
+
 const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
-const isFavorite = getRandomBool();
-const isArchive = getRandomBool();
 
-const getRandomValues = (array, num = 1) =>
-  Array.from({length: num}, () => getRandomItem(array));
+// TAGS
 
+const tags = [`homework`, `theory`, `practice`, `cat`, `baby`, `js`, `work`];
 const getRandomTags = () =>
   new Set(getRandomValues(tags, getRandomNumber(1, 5)));
 
+// DUEDATE
 
-const makeTask = () => {
-  return {
-    description: getRandomItem(descriptions),
-    dueDate: Date.now() - getRandomNumber(100000, 5000000),
-    isRepeatingDays: true,
-    repeatingDays: setRepeatingDays,
-    tags: Array.from(getRandomTags()),
-    color: getRandomItem(colors),
-    isFavorite,
-    isArchive,
-  };
+const getDueDate = () => {
+  return Date.now() - getRandomNumber(0, 500000000) + getRandomNumber(0, 500000000);
 };
+
+// TASK TEMPLATE
+
+const makeTask = () => ({
+  description: getRandomItem(descriptions),
+  dueDate: getDueDate(),
+  repeatingDays: getRepeatingDays(),
+  tags: Array.from(getRandomTags()),
+  color: getRandomItem(colors),
+  isFavorite: getRandomBool(),
+  isArchive: getRandomBool(),
+});
 
 const getTasks = (num) =>
   new Array(num).fill(null).map(makeTask);
 
-const cards = getTasks(50);
+const tasks = getTasks(50);
+
+// FILTERS
 
 const filterElements = [
-  {name: `All`, count: cards.length, isChecked: true},
-  {name: `Overdue`, count: 0},
-  {name: `Today`, count: 0},
-  {name: `Favorites`, count: countCards(cards, `isFavorite`)},
-  {name: `Repeating`, count: countCards(cards, `isRepeatingDays`)},
+  {name: `All`, count: tasks.length, isChecked: true},
+  {name: `Overdue`, count: countCardsByDate(tasks, `dueDate`, true)},
+  {name: `Today`, count: countCardsByDate(tasks, `dueDate`, false)},
+  {name: `Favorites`, count: countCards(tasks, `isFavorite`)},
+  {name: `Repeating`, count: countCards(tasks, `isRepeatingDays`)},
   {name: `Tags`, count: tags.length},
-  {name: `Archive`, count: countCards(cards, `isArchive`)},
+  {name: `Archive`, count: countCards(tasks, `isArchive`)},
 ];
 
 
 export {
-  cards,
+  tasks,
   filterElements
 };
 

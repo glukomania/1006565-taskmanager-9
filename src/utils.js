@@ -1,5 +1,7 @@
 // utility module
 
+import {getFullTaskDate} from "./components/card-date";
+
 // randomizers
 const getRandomNumber = (min, max) =>
   Math.floor(Math.random() * (max - min)) + min;
@@ -22,6 +24,8 @@ const addSection = (container, element, html, className) => {
   container.appendChild(section);
 };
 
+const getRandomValues = (array, num = 1) =>
+  Array.from({length: num}, () => getRandomItem(array));
 
 // insert a new block inside an existing selector
 const insertSection = (container, template) => {
@@ -31,8 +35,8 @@ const insertSection = (container, template) => {
 // count cards by filter parameter
 const countCards = (array, key) => {
   let counter = 0;
-  for (let i = 0; i < array.length; i++) {
-    if (array[i][key] === true) {
+  for (let item of array) {
+    if (item[key] === true) {
       counter++;
     }
   }
@@ -45,6 +49,32 @@ const renderCards = (array, startNumber, numberToAdd) => {
   return array.slice(startNumber + 1, finishNumber);
 };
 
+const checkTrueInArray = (object) => {
+  for (const key in object) {
+    if (object[key] === true) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const countCardsByDate = (array, key, isOverDue) => {
+  let counter = 0;
+  const todayDate = new Date();
+  for (let item of array) {
+    if (isOverDue) {
+      if (getFullTaskDate(item[key]) < getFullTaskDate(todayDate)) {
+        counter++;
+      }
+    } else {
+      if (getFullTaskDate(item[key]) === getFullTaskDate(todayDate)) {
+        counter++;
+      }
+    }
+  }
+  return counter;
+};
+
 export {
   addSection,
   getMarkup,
@@ -53,5 +83,8 @@ export {
   renderCards,
   getRandomNumber,
   getRandomItem,
-  getRandomBool
+  getRandomBool,
+  checkTrueInArray,
+  countCardsByDate,
+  getRandomValues
 };

@@ -5,6 +5,10 @@ import {getSortTemplate} from "./sort";
 import {getAddEditTemplate} from "./add-edit";
 import {getCardTemplate} from "./card";
 import {getDateTemplate} from "./date";
+import {
+  getTaskDate,
+  getTaskTime,
+} from "./card-date";
 
 export {
   getMenuTemplate,
@@ -13,5 +17,7 @@ export {
   getSortTemplate,
   getAddEditTemplate,
   getCardTemplate,
-  getDateTemplate
+  getDateTemplate,
+  getTaskDate,
+  getTaskTime,
 };

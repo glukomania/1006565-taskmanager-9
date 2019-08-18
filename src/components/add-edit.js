@@ -1,7 +1,8 @@
 import {
-  cardDate,
-  cardTime,
-} from "./card-date";
+  getTaskDate,
+  getTaskTime,
+} from "./index";
+import {checkTrueInArray} from "../utils";
 
 const hashtagMarkupPart = (tag) => {
   return `
@@ -139,8 +140,11 @@ const addRepeatingDays = (isAdd, repeatingDays) => `
 </div>
 </fieldset>`;
 
-const getAddEditTemplate = ({description, dueDate, isRepeatingDays, repeatingDays, tags, color, isFavorite, isArchive, isAdd = false}) => `
-<article class="card card--edit card--${isAdd ? `black` : color} ${isAdd ? `` : `card--repeat`}">
+const getAddEditTemplate = ({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive, isAdd = false}) => {
+
+  const isRepeadingDays = checkTrueInArray(repeatingDays);
+
+  return `<article class="card card--edit card--${isAdd ? `black` : color} ${isAdd ? `` : `card--repeat`}">
   <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
@@ -172,7 +176,7 @@ const getAddEditTemplate = ({description, dueDate, isRepeatingDays, repeatingDay
         <div class="card__details">
           <div class="card__dates">
             <button class="card__date-deadline-toggle" type="button">
-              date: <span class="card__date-status"> ${isAdd ? `NO` : cardDate(dueDate)}</span>
+              date: <span class="card__date-status"> ${isAdd ? `NO` : getTaskDate(dueDate)}</span>
             </button>
             ${isAdd ? `` : `
               <fieldset class="card__date-deadline">
@@ -182,7 +186,7 @@ const getAddEditTemplate = ({description, dueDate, isRepeatingDays, repeatingDay
                     type="text"
                     placeholder=""
                     name="date"
-                    value="${cardTime(dueDate)}"
+                    value="${getTaskTime(dueDate)}"
                   />
                 </label>
               </fieldset>
@@ -190,10 +194,10 @@ const getAddEditTemplate = ({description, dueDate, isRepeatingDays, repeatingDay
 
 
             <button class="card__repeat-toggle" type="button">
-              repeat:<span class="card__repeat-status">${isAdd ? `no` : `yes`}</span>
+              repeat:<span class="card__repeat-status">${isAdd || !isRepeadingDays ? `no` : `yes`}</span>
             </button>
 
-            ${isRepeatingDays ? addRepeatingDays(isAdd, repeatingDays) : ``}
+            ${isRepeadingDays ? addRepeatingDays(isAdd, repeatingDays) : ``}
 
           </div>
           ${isAdd ? hashtagAdd() : hashContainer(tags)}
@@ -280,5 +284,6 @@ const getAddEditTemplate = ({description, dueDate, isRepeatingDays, repeatingDay
     </form>
   </article>
 `;
+};
 
 export {getAddEditTemplate};

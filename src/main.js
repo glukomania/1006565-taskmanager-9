@@ -15,9 +15,8 @@ import {
 } from './utils';
 
 import {
-  cards
+  tasks
 } from './data';
-
 
 const menuPlace = document.querySelector(`.main__control`);
 const sectionsPlace = document.querySelector(`.main`);
@@ -39,12 +38,12 @@ cardsContainerPlace.appendChild(contentContainer);
 const contentPlace = document.querySelector(`.board__tasks`);
 
 let cardToEdit = [];
-cardToEdit.push(cards[0]);
+cardToEdit.push(tasks[0]);
 const addEditBlock = cardToEdit.map(getAddEditTemplate);
 insertSection(contentPlace, addEditBlock);
 
 // cards to show
-let cardsToShow = renderCards(cards, 0, 5);
+let cardsToShow = renderCards(tasks, 0, 5);
 const cardsTemplate = getMarkup(cardsToShow, getCardTemplate);
 insertSection(contentPlace, cardsTemplate);
 
@@ -61,12 +60,12 @@ button.type = `button`;
 
 const onLoadMoreClick = () => {
   let cardsNumber = cardsToShow.length;
-  const moreCards = renderCards(cards, cardsNumber, 8);
+  const moreCards = renderCards(tasks, cardsNumber, 8);
   cardsNumber = cardsNumber + moreCards.length;
   const cardsTemplateMore = getMarkup(moreCards, getCardTemplate);
   insertSection(contentPlace, cardsTemplateMore);
 
-  cardsToShow = renderCards(cards, 0, cardsNumber);
+  cardsToShow = renderCards(tasks, 0, cardsNumber);
 };
 
 const onLoadMoreButton = document.querySelector(`.load-more`);

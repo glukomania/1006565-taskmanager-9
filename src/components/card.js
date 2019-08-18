@@ -18,7 +18,7 @@ const getHashTagListMarkup = (tags) => `
     </div>
   </div>`.trim();
 
-const getCardTemplate = ({description, dueDate, tags = [], color, isFavorite, isArchive} = {}) => `
+const getCardTemplate = ({description, dueDate, tags = [], color, isFavorite, isArchive}) => `
   <article class="card card--${color}">
     <div class="card__form">
       <div class="card__inner">
