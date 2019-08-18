@@ -1,12 +1,19 @@
 import {
   countCards,
+  countCardsByDate
+} from "./utils/filter-utils";
+
+import {
   getRandomNumber,
   getRandomItem,
   getRandomBool,
   getRandomValues,
-  countCardsByDate
-} from "./utils";
-import {TaskDay} from "./constants";
+} from "./utils/randomizers";
+
+import {
+  TaskDay,
+  TIME_WEEK
+} from "./constants";
 
 // DAYS
 
@@ -42,7 +49,7 @@ const getRandomTags = () =>
 // DUEDATE
 
 const getDueDate = () => {
-  return Date.now() - getRandomNumber(0, 500000000) + getRandomNumber(0, 500000000);
+  return Date.now() - getRandomNumber(0, TIME_WEEK) + getRandomNumber(0, TIME_WEEK);
 };
 
 // TASK TEMPLATE
@@ -60,7 +67,7 @@ const makeTask = () => ({
 const getTasks = (num) =>
   new Array(num).fill(null).map(makeTask);
 
-const tasks = getTasks(50);
+const tasks = getTasks(15);
 
 // FILTERS
 

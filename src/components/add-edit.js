@@ -1,8 +1,8 @@
 import {
   getTaskDate,
   getTaskTime,
-} from "./index";
-import {checkTrueInArray} from "../utils";
+} from "./card-date";
+import {checkTrueInArray} from "../utils/utils";
 
 const hashtagMarkupPart = (tag) => {
   return `

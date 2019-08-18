@@ -7,3 +7,5 @@ export const TaskDay = {
   SA: `sa`,
   SU: `su`,
 };
+
+export const TIME_WEEK = 7 * 24 * 60 * 60 * 1000;

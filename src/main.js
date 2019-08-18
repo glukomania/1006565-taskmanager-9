@@ -12,7 +12,7 @@ import {
   addSection,
   insertSection,
   renderCards
-} from './utils';
+} from './utils/dom';
 
 import {
   tasks
@@ -49,23 +49,27 @@ insertSection(contentPlace, cardsTemplate);
 
 
 // add button 'load more'
-
-addSection(cardsContainerPlace, `button`, null, `load-more`);
-const button = document.querySelector(`.load-more`);
-button.textContent = `load more`;
-button.type = `button`;
+const button = document.createElement(`button`);
+button.className = `load-more`;
+cardsContainerPlace.appendChild(button);
+const loadMore = document.querySelector(`.load-more`);
+loadMore.textContent = `load more`;
+loadMore.type = `button`;
 
 
 // Load more cards
 
 const onLoadMoreClick = () => {
   let cardsNumber = cardsToShow.length;
-  const moreCards = renderCards(tasks, cardsNumber, 8);
+  const moreCards = renderCards(tasks, cardsNumber, 7);
   cardsNumber = cardsNumber + moreCards.length;
   const cardsTemplateMore = getMarkup(moreCards, getCardTemplate);
   insertSection(contentPlace, cardsTemplateMore);
 
   cardsToShow = renderCards(tasks, 0, cardsNumber);
+  if (moreCards.length <= 7) {
+    loadMore.style.visibility = `hidden`;
+  }
 };
 
 const onLoadMoreButton = document.querySelector(`.load-more`);

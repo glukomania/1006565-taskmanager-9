@@ -1,4 +1,4 @@
-import {getDateTemplate} from "./index";
+import {getDateTemplate} from "./date";
 
 const getTextArea = (text) => `
   <div class="card__textarea-wrap">

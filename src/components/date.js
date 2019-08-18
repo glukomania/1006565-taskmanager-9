@@ -1,7 +1,7 @@
 import {
   getTaskDate,
   getTaskTime,
-} from "./index";
+} from "./card-date";
 
 const getDateTemplate = (date) => `
   <div class="card__dates">
