@@ -1,49 +1,77 @@
 import {
-  menuTemplate,
-  searchTemplate,
+  getMenuTemplate,
+  getSearchTemplate,
   getFilterTemplate,
-  sortTemplate,
-  addEditTemplate,
+  getSortTemplate,
+  getAddEditTemplate,
   getCardTemplate
-
 } from './components/index';
 
 import {
   getMarkup,
-  addSection
-} from './render';
+  addSection,
+  insertSection,
+  renderCards
+} from './utils/dom';
 
 import {
-  filterElements,
-  cardData
+  tasks
 } from './data';
-
 
 const menuPlace = document.querySelector(`.main__control`);
 const sectionsPlace = document.querySelector(`.main`);
 
-addSection(menuPlace, `section`, menuTemplate(), `control__btn-wrap`);
-addSection(sectionsPlace, `section`, searchTemplate(), `main__search search container`);
+insertSection(menuPlace, getMenuTemplate());
+addSection(sectionsPlace, `section`, getSearchTemplate(), `main__search search container`);
 
 // filters
-const filterTemplate = getMarkup(filterElements, getFilterTemplate);
-addSection(sectionsPlace, `section`, filterTemplate, `main__filter filter container`);
+insertSection(sectionsPlace, getFilterTemplate());
 
 // sorting
-addSection(sectionsPlace, `section`, sortTemplate(), `board container`);
+insertSection(sectionsPlace, getSortTemplate());
 
 // add-edit
 const cardsContainerPlace = document.querySelector(`.board`);
-addSection(cardsContainerPlace, `div`, addEditTemplate, `board__tasks`);
+const contentContainer = document.createElement(`div`);
+contentContainer.className = `board__tasks`;
+cardsContainerPlace.appendChild(contentContainer);
+const contentPlace = document.querySelector(`.board__tasks`);
 
-// cards
-const cardsTemplate = getMarkup(cardData, getCardTemplate);
-const cardsPlace = document.querySelector(`.board__tasks`);
-addSection(cardsPlace, `div`, cardsTemplate, `board__tasks`);
+let cardToEdit = [];
+cardToEdit.push(tasks[0]);
+const addEditBlock = cardToEdit.map(getAddEditTemplate);
+insertSection(contentPlace, addEditBlock);
+
+// cards to show
+let cardsToShow = renderCards(tasks, 0, 5);
+const cardsTemplate = getMarkup(cardsToShow, getCardTemplate);
+insertSection(contentPlace, cardsTemplate);
+
 
 // add button 'load more'
+const button = document.createElement(`button`);
+button.className = `load-more`;
+cardsContainerPlace.appendChild(button);
+const loadMore = document.querySelector(`.load-more`);
+loadMore.textContent = `load more`;
+loadMore.type = `button`;
 
-addSection(cardsContainerPlace, `button`, null, `load-more`);
-const button = document.querySelector(`.load-more`);
-button.textContent = `load more`;
-button.type = `button`;
+
+// Load more cards
+
+const onLoadMoreClick = () => {
+  let cardsNumber = cardsToShow.length;
+  const moreCards = renderCards(tasks, cardsNumber, 7);
+  cardsNumber = cardsNumber + moreCards.length;
+  const cardsTemplateMore = getMarkup(moreCards, getCardTemplate);
+  insertSection(contentPlace, cardsTemplateMore);
+
+  cardsToShow = renderCards(tasks, 0, cardsNumber);
+  if (moreCards.length <= 7) {
+    loadMore.style.visibility = `hidden`;
+  }
+};
+
+const onLoadMoreButton = document.querySelector(`.load-more`);
+onLoadMoreButton.addEventListener(`click`, onLoadMoreClick);
+

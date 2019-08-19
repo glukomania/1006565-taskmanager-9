@@ -1,4 +1,5 @@
-const menuTemplate = () => `
+const getMenuTemplate = () => `
+<sectoin class="control__btn-wrap">
   <input
     type="radio"
     name="control"
@@ -24,7 +25,8 @@ const menuTemplate = () => `
   />
   <label for="control__statistic" class="control__label"
     >STATISTICS</label
-  >`;
+  >
+</section>`;
 
-export {menuTemplate};
+export {getMenuTemplate};
 

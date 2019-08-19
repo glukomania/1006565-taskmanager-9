@@ -1,15 +1,23 @@
-import {menuTemplate} from "./menu";
-import {searchTemplate} from "./search";
+import {getMenuTemplate} from "./menu";
+import {getSearchTemplate} from "./search";
 import {getFilterTemplate} from "./filter";
-import {sortTemplate} from "./sort";
-import {addEditTemplate} from "./add-edit";
+import {getSortTemplate} from "./sort";
+import {getAddEditTemplate} from "./add-edit";
 import {getCardTemplate} from "./card";
+import {getDateTemplate} from "./date";
+import {
+  getTaskDate,
+  getTaskTime,
+} from "./card-date";
 
 export {
-  menuTemplate,
-  searchTemplate,
+  getMenuTemplate,
+  getSearchTemplate,
   getFilterTemplate,
-  sortTemplate,
-  addEditTemplate,
-  getCardTemplate
+  getSortTemplate,
+  getAddEditTemplate,
+  getCardTemplate,
+  getDateTemplate,
+  getTaskDate,
+  getTaskTime,
 };
