@@ -4,7 +4,8 @@ import {
   Filter,
   Sort,
   Task,
-  TaskEdit
+  TaskEdit,
+  NoCards
 } from './components/index';
 
 import {
@@ -105,6 +106,22 @@ const taskMocks = new Array(TASK_COUNT).fill(``).map(makeTask);
 
 taskMocks.slice(0, 7).forEach((taskMock) => renderTask(taskMock));
 
+// No cards stub text
+const renderNoCards = () => {
+  const noCards = new NoCards(`p`, [`board__no-tasks`]);
+  cardsContainerPlace.appendChild(noCards.getElement());
+  contentPlace.remove();
+  document.querySelector(`.board__filter-list`).style.visibility = `hidden`;
+  const filters = document.querySelectorAll(`.filter__input`);
+  for (let item of filters) {
+    item.checked = true;
+    item.disabled = true;
+  }
+};
+if (document.querySelectorAll(`.card`).length === 0) {
+  renderNoCards();
+}
+
 // add button 'load more'
 const button = document.createElement(`button`);
 button.className = `load-more`;
@@ -112,6 +129,7 @@ cardsContainerPlace.appendChild(button);
 const loadMore = document.querySelector(`.load-more`);
 loadMore.textContent = `load more`;
 loadMore.type = `button`;
+
 
 // Load more cards
 
@@ -128,6 +146,6 @@ const onLoadMoreClick = () => {
 };
 
 const onLoadMoreButton = document.querySelector(`.load-more`);
-onLoadMoreButton.addEventListener(`click`, onLoadMoreClick);
-
-
+if (onLoadMoreButton) {
+  onLoadMoreButton.addEventListener(`click`, onLoadMoreClick);
+}

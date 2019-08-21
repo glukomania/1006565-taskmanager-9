@@ -23,9 +23,6 @@ const countCardsByDate = (array, key, isOverDue) => {
       if (isSameDate(item[key], todayDate)) {
         counter++;
       }
-      // if (getFullTaskDate(item[key]) === getFullTaskDate(todayDate)) {
-      //   counter++;
-      // }
     }
   }
   return counter;

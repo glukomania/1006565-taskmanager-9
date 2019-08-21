@@ -67,7 +67,7 @@ const makeTask = () => ({
 const getTask = (num) =>
   new Array(num).fill(null).map(makeTask);
 
-const tasks = getTask(15);
+const tasks = getTask(50);
 
 // FILTERS
 

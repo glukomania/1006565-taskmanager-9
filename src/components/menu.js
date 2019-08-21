@@ -1,15 +1,13 @@
 import {createElement} from "../utils/dom";
 
 class Menu {
-  constructor(selector, classNames) {
-    this._selector = selector;
-    this._classNames = classNames;
+  constructor() {
     this._element = null;
   }
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(this.getTemplate(), this._selector, this._classNames);
+      this._element = createElement(this.getTemplate());
     }
     return this._element;
   }
