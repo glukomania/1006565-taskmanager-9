@@ -2,13 +2,12 @@ import {
   Menu,
   Search,
   Filter,
-  getSortTemplate,
+  Sort,
   Task,
   TaskEdit
 } from './components/index';
 
 import {
-  addSection,
   insertSection,
   Position,
   createElement
@@ -45,27 +44,24 @@ const filter = filterElements.map(renderFilter).join(`\n`);
 const filterBlock = createElement(filter, `section`, [`main__filter`, `filter`, `container`]);
 insertSection(sectionsPlace, filterBlock, Position.BEFOREEND);
 
-
-// insertSection(sectionsPlace, filterMarkup, Position.BEFOREEND);
-
-// renderFilter(filterElements);
-
 // sorting
-addSection(sectionsPlace, `section`, getSortTemplate(), `board container`);
+const renderSort = () => {
+  const sort = new Sort(`section`, [`board`, `container`]);
+  insertSection(sectionsPlace, sort.getElement(), Position.BEFOREEND);
+};
+renderSort();
 
-insertSection(sectionsPlace, getSortTemplate(), Position.BEFOREEND);
-
-// add-edit container
+// add cards container
 const cardsContainerPlace = document.querySelector(`.board`);
 const contentContainer = document.createElement(`div`);
 contentContainer.className = `board__tasks`;
 cardsContainerPlace.appendChild(contentContainer);
-const contentPlace = document.querySelector(`.board__tasks`);
 
 
 // cards to show
-const TASK_COUNT = 3;
+const TASK_COUNT = 50;
 
+const contentPlace = document.querySelector(`.board__tasks`);
 const renderTask = (taskMock) => {
   const task = new Task(taskMock);
   const taskEdit = new TaskEdit(taskMock);
@@ -107,32 +103,31 @@ const renderTask = (taskMock) => {
 
 const taskMocks = new Array(TASK_COUNT).fill(``).map(makeTask);
 
-taskMocks.forEach((taskMock) => renderTask(taskMock));
+taskMocks.slice(0, 7).forEach((taskMock) => renderTask(taskMock));
 
 // add button 'load more'
-// const button = document.createElement(`button`);
-// button.className = `load-more`;
-// cardsContainerPlace.appendChild(button);
-// const loadMore = document.querySelector(`.load-more`);
-// loadMore.textContent = `load more`;
-// loadMore.type = `button`;
+const button = document.createElement(`button`);
+button.className = `load-more`;
+cardsContainerPlace.appendChild(button);
+const loadMore = document.querySelector(`.load-more`);
+loadMore.textContent = `load more`;
+loadMore.type = `button`;
 
 // Load more cards
 
-// const onLoadMoreClick = () => {
-//   let cardsNumber = cardsToShow.length;
-//   const moreCards = renderCards(tasks, cardsNumber, 7);
-//   cardsNumber = cardsNumber + moreCards.length;
-//   const cardsTemplateMore = getMarkup(moreCards, getCardTemplate);
-//   insertSection(contentPlace, cardsTemplateMore);
+const onLoadMoreClick = () => {
+  let cardsNumber = document.querySelectorAll(`.card`).length;
+  if ((TASK_COUNT - document.querySelectorAll(`.card`).length) <= 7) {
+    loadMore.style.visibility = `hidden`;
+  }
+  taskMocks.slice(cardsNumber, cardsNumber + 7).forEach((taskMock) => renderTask(taskMock));
 
-//   cardsToShow = renderCards(tasks, 0, cardsNumber);
-//   if (moreCards.length <= 7) {
-//     loadMore.style.visibility = `hidden`;
-//   }
-// };
+  if ((TASK_COUNT - document.querySelectorAll(`.card`).length) <= 7) {
+    loadMore.style.visibility = `hidden`;
+  }
+};
 
-// const onLoadMoreButton = document.querySelector(`.load-more`);
-// onLoadMoreButton.addEventListener(`click`, onLoadMoreClick);
+const onLoadMoreButton = document.querySelector(`.load-more`);
+onLoadMoreButton.addEventListener(`click`, onLoadMoreClick);
 
 

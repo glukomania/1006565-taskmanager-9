@@ -1,7 +1,7 @@
 import {Menu} from "./menu";
 import {Search} from "./search";
 import {Filter} from "./filter";
-import {getSortTemplate} from "./sort";
+import {Sort} from "./sort";
 import {TaskEdit} from "./add-edit";
 import {Task} from "./card";
 import {getDateTemplate} from "./date";
@@ -14,7 +14,7 @@ export {
   Menu,
   Search,
   Filter,
-  getSortTemplate,
+  Sort,
   getDateTemplate,
   getTaskDate,
   getTaskTime,

@@ -1,26 +1,3 @@
-import {createElement} from "../utils/dom";
-
-
-// const filterBlock = ({name, count = 0, isChecked = false}) => {
-//   return `
-//   <input
-//   type="radio"
-//   id="filter__${name.toLowerCase()}"
-//   class="filter__input visually-hidden"
-//   name="filter"
-//   ${isChecked ? `checked` : ``}
-//   />
-
-//   <label for="filter__${name.toLowerCase()}" class="filter__label">
-//   ${name.toUpperCase()}
-//   <span class="filter__${name.toLowerCase()}-count">${count}</span>
-//   </label>
-// `;
-// };
-
-// const filterMarkup = getMarkup(filterElements, filterBlock);
-
-
 class Filter {
   constructor({name, count}, selector) {
     this._name = name;
