@@ -9,9 +9,33 @@ const addSection = (container, element, html, className) => {
   container.appendChild(section);
 };
 
+const Position = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
 // insert a new block inside an existing selector
-const insertSection = (container, template) => {
-  container.insertAdjacentHTML(`beforeend`, template);
+const insertSection = (container, element, place) => {
+  switch (place) {
+    case Position.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case Position.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+// creates an element and puts it to the dom
+const createElement = (template, selector = `div`, classNames) => {
+  const newElement = document.createElement(selector);
+  if (classNames) {
+    for (let item of classNames) {
+      newElement.classList.add(item);
+    }
+  }
+  newElement.innerHTML = template;
+  return newElement;
 };
 
 // show only N cards
@@ -20,10 +44,20 @@ const renderCards = (array, startNumber, numberToAdd) => {
   return array.slice(startNumber + 1, finishNumber);
 };
 
+// removes the element from dom
+const unrender = (element) => {
+  if (element) {
+    element.remove();
+  }
+};
+
 
 export {
   getMarkup,
   addSection,
+  createElement,
   insertSection,
-  renderCards
+  renderCards,
+  unrender,
+  Position
 };

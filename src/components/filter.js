@@ -1,31 +1,33 @@
-import {getMarkup} from "../utils/dom";
-import {filterElements} from "../data";
+class Filter {
+  constructor({name, count}, selector) {
+    this._name = name;
+    this._count = count;
+    this._element = null;
+    this._section = selector;
+  }
 
-const filterBlock = ({name, count = 0, isChecked = false}) => {
-  const id = name.toLowerCase();
-  return `
-  <input
-  type="radio"
-  id="filter__${id}"
-  class="filter__input visually-hidden"
-  name="filter"
-  ${isChecked ? `checked` : ``}
-  />
+  getElement() {
+    if (!this._element) {
+      this._element = this.getTemplate();
+    }
+    return this._element;
+  }
 
-  <label for="filter__${id}" class="filter__label">
-  ${name.toUpperCase()}
-  <span class="filter__${id}-count">${count}</span>
-  </label>
-`;
-};
+  getTemplate() {
+    return `
+    <input
+    type="radio"
+    id="filter__${this._name}"
+    class="filter__input visually-hidden"
+    name="filter"
+    />
 
-const filterMarkup = getMarkup(filterElements, filterBlock);
+    <label for="filter__${this._name}" class="filter__label">
+    ${this._name}
+    <span class="filter__${this._name}-count">${this._count}</span>
+    </label>
+  `;
+  }
+}
 
-const getFilterTemplate = () => {
-  return `
-<section class="main__filter filter container">
-  ${filterMarkup}
-</section>`;
-};
-
-export {getFilterTemplate};
+export {Filter};
