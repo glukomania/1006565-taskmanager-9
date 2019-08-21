@@ -4,7 +4,6 @@ import {Filter} from "./filter";
 import {Sort} from "./sort";
 import {TaskEdit} from "./add-edit";
 import {Task} from "./card";
-import {getDateTemplate} from "./date";
 import {
   getTaskDate,
   getTaskTime,
@@ -15,7 +14,6 @@ export {
   Search,
   Filter,
   Sort,
-  getDateTemplate,
   getTaskDate,
   getTaskTime,
   Task,
