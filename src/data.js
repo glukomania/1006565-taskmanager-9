@@ -64,10 +64,10 @@ const makeTask = () => ({
   isArchive: getRandomBool(),
 });
 
-const getTasks = (num) =>
+const getTask = (num) =>
   new Array(num).fill(null).map(makeTask);
 
-const tasks = getTasks(15);
+const tasks = getTask(15);
 
 // FILTERS
 
@@ -84,6 +84,7 @@ const filterElements = [
 
 export {
   tasks,
-  filterElements
+  filterElements,
+  makeTask
 };
 

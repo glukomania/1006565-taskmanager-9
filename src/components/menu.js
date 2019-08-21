@@ -1,6 +1,22 @@
-const getMenuTemplate = () => `
-<sectoin class="control__btn-wrap">
-  <input
+import {createElement} from "../utils/dom";
+
+class Menu {
+  constructor(selector, className) {
+    this._selector = selector;
+    this._className = className;
+    this._element = null;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate(), this._selector, this._className);
+    }
+    return this._element;
+  }
+
+  getTemplate() {
+    return `
+<input
     type="radio"
     name="control"
     id="control__new-task"
@@ -25,8 +41,9 @@ const getMenuTemplate = () => `
   />
   <label for="control__statistic" class="control__label"
     >STATISTICS</label
-  >
-</section>`;
+  >`;
+  }
+}
 
-export {getMenuTemplate};
+export {Menu};
 
