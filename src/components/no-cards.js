@@ -1,6 +1,6 @@
 import {createElement} from "../utils/dom";
 
-class NoCards {
+export class NoCards {
   constructor(selector, classNames) {
     this._selector = selector;
     this._classNames = classNames;
@@ -21,4 +21,3 @@ class NoCards {
   }
 }
 
-export {NoCards};

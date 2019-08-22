@@ -104,7 +104,7 @@ const renderTask = (taskMock) => {
 
 const taskMocks = new Array(TASK_COUNT).fill(``).map(makeTask);
 
-taskMocks.slice(0, 7).forEach((taskMock) => renderTask(taskMock));
+taskMocks.slice(0, 7).forEach(renderTask);
 
 // No cards stub text
 const renderNoCards = () => {
@@ -113,7 +113,7 @@ const renderNoCards = () => {
   contentPlace.remove();
   document.querySelector(`.board__filter-list`).style.visibility = `hidden`;
   const filters = document.querySelectorAll(`.filter__input`);
-  for (let item of filters) {
+  for (const item of filters) {
     item.checked = true;
     item.disabled = true;
   }

@@ -1,7 +1,7 @@
 import {
   countCards,
   countCardsByDate
-} from "./utils/filter-utils";
+} from "./utils/filter";
 
 import {
   getRandomNumber,
