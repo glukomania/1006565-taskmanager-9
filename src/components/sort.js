@@ -24,4 +24,4 @@ class Sort {
   }
 }
 
-export {Sort};
+export default Sort;

@@ -1,6 +1,6 @@
 import {createElement} from "../utils/dom";
 
-export class NoCards {
+class StubMessage {
   constructor(selector, classNames) {
     this._selector = selector;
     this._classNames = classNames;
@@ -21,3 +21,4 @@ export class NoCards {
   }
 }
 
+export default StubMessage;

@@ -1,13 +1,14 @@
-import {createElement} from "../utils/dom";
+import {createElement, unrender} from "../utils/dom";
 
 class Task {
-  constructor({description, dueDate, tags, color, repeatingDays}) {
+  constructor({description, dueDate, tags, color, repeatingDays}, index) {
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._tags = tags;
     this._color = color;
     this._element = null;
     this._repeatingDays = repeatingDays;
+    this._index = index;
   }
 
   getElement() {
@@ -18,15 +19,22 @@ class Task {
     return this._element;
   }
 
+  removeElement() {
+    unrender(this._element);
+    this._element = null;
+
+  }
+
   getTemplate() {
-    return `<article class="card card--${this._color} ${Object.values(this._repeatingDays).some((it) => it === true) ? `card--repeat` : `` }">
+    return `
+    <article class="card card--${this._color} ${Object.values(this._repeatingDays).some((it) => it === true) ? `card--repeat` : `` }">
           <div class="card__form">
             <div class="card__inner">
               <div class="card__control">
                 <button type="button" class="card__btn card__btn--edit">
                   edit
                 </button>
-                <button type="button" class="card__btn card__btn--archive">
+                <button type="button" class="card__btn card__btn--archive" data-btn="archive" data-id="${this._index}">
                   archive
                 </button>
                 <button
@@ -78,6 +86,4 @@ class Task {
 }
 
 
-export {
-  Task
-};
+export default Task;

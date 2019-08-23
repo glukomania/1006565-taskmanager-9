@@ -54,7 +54,7 @@ const getDueDate = () => {
 
 // TASK TEMPLATE
 
-const makeTask = () => ({
+const makeTask = (index) => ({
   description: getRandomItem(descriptions),
   dueDate: getDueDate(),
   repeatingDays: getRepeatingDays(),
@@ -62,12 +62,13 @@ const makeTask = () => ({
   color: getRandomItem(colors),
   isFavorite: getRandomBool(),
   isArchive: getRandomBool(),
+  id: index
 });
 
 const getTask = (num) =>
-  new Array(num).fill(null).map(makeTask);
+  new Array(num).fill(null).map((item, index) => makeTask(index));
 
-const tasks = getTask(50);
+const tasks = getTask(5);
 
 // FILTERS
 
