@@ -15,12 +15,11 @@ import {
 } from './utils/dom';
 
 import {
-  makeTask,
   filterElements,
   tasks
 } from './data';
 
-import {maxCardsNumber} from "./constants";
+import {maxCardsNumberToDisplay} from "./constants";
 
 const filters = document.querySelectorAll(`.filter__input`);
 
@@ -65,7 +64,7 @@ cardsContainerPlace.appendChild(contentContainer);
 
 
 // cards to show
-const TASK_COUNT = tasks.length;
+const initialTaskNumber = tasks.length;
 
 const contentPlace = document.querySelector(`.board__tasks`);
 
@@ -113,11 +112,14 @@ const renderTask = (taskMock, id) => {
 
   insertSection(contentPlace, task.getElement(), Position.BEFOREEND);
 };
-let tasksToShow = tasks.slice(0, maxCardsNumber);
-tasksToShow.forEach((mock, cardId) => renderTask(mock, cardId));
-let cardsNumber = maxCardsNumber;
 
-// No cards stub text
+tasks.slice(0, maxCardsNumberToDisplay).forEach((mock) => renderTask(mock, mock.id));
+
+// the number of cards that is displayed NOW
+
+let cardsNumber = Math.min(tasks.length, maxCardsNumberToDisplay);
+
+// No cards - stub text
 const renderNoCards = () => {
   const stub = new StubMessage(`p`, [`board__no-tasks`]);
   cardsContainerPlace.appendChild(stub.getElement());
@@ -130,7 +132,7 @@ const renderNoCards = () => {
   }
 };
 
-// add button 'load more'
+// Add button 'load more' (with conditions)
 const button = document.createElement(`button`);
 button.className = `load-more`;
 cardsContainerPlace.appendChild(button);
@@ -138,36 +140,46 @@ const loadMoreButton = document.querySelector(`.load-more`);
 loadMoreButton.textContent = `load more`;
 loadMoreButton.type = `button`;
 
+if (tasks.length <= cardsNumber) {
+  loadMoreButton.style.visibility = `hidden`;
+}
+if (tasks.length === 0) {
+  renderNoCards();
+}
+
 
 // Load more cards
 
 const onLoadMoreClick = () => {
-  if ((TASK_COUNT - cardsNumber) <= maxCardsNumber) {
+  if ((initialTaskNumber - cardsNumber) <= maxCardsNumberToDisplay) {
     loadMoreButton.style.visibility = `hidden`;
   }
-
-  tasksToShow = tasks.slice(cardsNumber, cardsNumber + maxCardsNumber);
-  tasks.slice(cardsNumber, cardsNumber + maxCardsNumber).forEach(renderTask);
-  cardsNumber = cardsNumber + maxCardsNumber;
+  const cardsToShow = tasks.slice(cardsNumber, cardsNumber + maxCardsNumberToDisplay);
+  cardsToShow.forEach((mock) => renderTask(mock, mock.id));
+  cardsNumber = cardsNumber + cardsToShow.length;
 };
 
 if (loadMoreButton) {
   loadMoreButton.addEventListener(`click`, onLoadMoreClick);
 }
 
+// Delete a card
+
 const onArchiveClick = (evt) => {
   const target = evt.target;
   if (target.dataset.btn === `archive`) {
-    const index = tasks.findIndex(() => tasks.find((x) => x.id === target.dataset.id));
+    const index = tasks.findIndex((task) => String(task.id) === target.dataset.id);
     tasks.splice(index, 1);
-    if ((TASK_COUNT - tasks.length) <= maxCardsNumber) {
+    cardsNumber = Math.min(tasks.length, cardsNumber);
+    if (tasks.length > cardsNumber) {
+      renderTask(tasks[cardsNumber - 1], tasks[cardsNumber - 1].id);
+    } else {
       loadMoreButton.style.visibility = `hidden`;
     }
     if (tasks.length === 0) {
       renderNoCards();
     }
   }
-
 };
 
 contentPlace.addEventListener(`click`, onArchiveClick);
