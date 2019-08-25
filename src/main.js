@@ -4,7 +4,8 @@ import {
   Filter,
   Sort,
   Task,
-  TaskEdit
+  TaskEdit,
+  StubMessage
 } from './components/index';
 
 import {
@@ -14,9 +15,13 @@ import {
 } from './utils/dom';
 
 import {
-  makeTask,
-  filterElements
+  filterElements,
+  tasks
 } from './data';
+
+import {maxCardsNumberToDisplay} from "./constants";
+
+const filters = document.querySelectorAll(`.filter__input`);
 
 
 // Menu
@@ -59,11 +64,12 @@ cardsContainerPlace.appendChild(contentContainer);
 
 
 // cards to show
-const TASK_COUNT = 50;
+const initialTaskNumber = tasks.length;
 
 const contentPlace = document.querySelector(`.board__tasks`);
-const renderTask = (taskMock) => {
-  const task = new Task(taskMock);
+
+const renderTask = (taskMock, id) => {
+  const task = new Task(taskMock, id);
   const taskEdit = new TaskEdit(taskMock);
 
   const onEscKeyDown = (evt) => {
@@ -97,37 +103,83 @@ const renderTask = (taskMock) => {
       document.removeEventListener(`keydown`, onEscKeyDown);
     });
 
+  task.getElement()
+    .querySelector(`.card__btn--archive`)
+    .addEventListener(`click`, () => {
+      task.removeElement();
+    });
+
+
   insertSection(contentPlace, task.getElement(), Position.BEFOREEND);
 };
 
+tasks.slice(0, maxCardsNumberToDisplay).forEach((mock) => renderTask(mock, mock.id));
 
-const taskMocks = new Array(TASK_COUNT).fill(``).map(makeTask);
+// the number of cards that is displayed NOW
 
-taskMocks.slice(0, 7).forEach((taskMock) => renderTask(taskMock));
+let cardsNumber = Math.min(tasks.length, maxCardsNumberToDisplay);
 
-// add button 'load more'
+// No cards - stub text
+const renderNoCards = () => {
+  const stub = new StubMessage(`p`, [`board__no-tasks`]);
+  cardsContainerPlace.appendChild(stub.getElement());
+  contentPlace.remove();
+  document.querySelector(`.board__filter-list`).style.visibility = `hidden`;
+
+  for (const item of filters) {
+    item.checked = true;
+    item.disabled = true;
+  }
+};
+
+// Add button 'load more' (with conditions)
 const button = document.createElement(`button`);
 button.className = `load-more`;
 cardsContainerPlace.appendChild(button);
-const loadMore = document.querySelector(`.load-more`);
-loadMore.textContent = `load more`;
-loadMore.type = `button`;
+const loadMoreButton = document.querySelector(`.load-more`);
+loadMoreButton.textContent = `load more`;
+loadMoreButton.type = `button`;
+
+if (tasks.length <= cardsNumber) {
+  loadMoreButton.style.visibility = `hidden`;
+}
+if (tasks.length === 0) {
+  renderNoCards();
+}
+
 
 // Load more cards
 
 const onLoadMoreClick = () => {
-  let cardsNumber = document.querySelectorAll(`.card`).length;
-  if ((TASK_COUNT - document.querySelectorAll(`.card`).length) <= 7) {
-    loadMore.style.visibility = `hidden`;
+  if ((initialTaskNumber - cardsNumber) <= maxCardsNumberToDisplay) {
+    loadMoreButton.style.visibility = `hidden`;
   }
-  taskMocks.slice(cardsNumber, cardsNumber + 7).forEach((taskMock) => renderTask(taskMock));
+  const cardsToShow = tasks.slice(cardsNumber, cardsNumber + maxCardsNumberToDisplay);
+  cardsToShow.forEach((mock) => renderTask(mock, mock.id));
+  cardsNumber = cardsNumber + cardsToShow.length;
+};
 
-  if ((TASK_COUNT - document.querySelectorAll(`.card`).length) <= 7) {
-    loadMore.style.visibility = `hidden`;
+if (loadMoreButton) {
+  loadMoreButton.addEventListener(`click`, onLoadMoreClick);
+}
+
+// Delete a card
+
+const onArchiveClick = (evt) => {
+  const target = evt.target;
+  if (target.dataset.btn === `archive`) {
+    const index = tasks.findIndex((task) => String(task.id) === target.dataset.id);
+    tasks.splice(index, 1);
+    cardsNumber = Math.min(tasks.length, cardsNumber);
+    if (tasks.length > cardsNumber) {
+      renderTask(tasks[cardsNumber - 1], tasks[cardsNumber - 1].id);
+    } else {
+      loadMoreButton.style.visibility = `hidden`;
+    }
+    if (tasks.length === 0) {
+      renderNoCards();
+    }
   }
 };
 
-const onLoadMoreButton = document.querySelector(`.load-more`);
-onLoadMoreButton.addEventListener(`click`, onLoadMoreClick);
-
-
+contentPlace.addEventListener(`click`, onArchiveClick);

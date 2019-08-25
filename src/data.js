@@ -1,7 +1,7 @@
 import {
   countCards,
   countCardsByDate
-} from "./utils/filter-utils";
+} from "./utils/filter";
 
 import {
   getRandomNumber,
@@ -54,7 +54,7 @@ const getDueDate = () => {
 
 // TASK TEMPLATE
 
-const makeTask = () => ({
+const makeTask = (index) => ({
   description: getRandomItem(descriptions),
   dueDate: getDueDate(),
   repeatingDays: getRepeatingDays(),
@@ -62,12 +62,13 @@ const makeTask = () => ({
   color: getRandomItem(colors),
   isFavorite: getRandomBool(),
   isArchive: getRandomBool(),
+  id: index
 });
 
 const getTask = (num) =>
-  new Array(num).fill(null).map(makeTask);
+  new Array(num).fill(null).map((item, index) => makeTask(index));
 
-const tasks = getTask(15);
+const tasks = getTask(0);
 
 // FILTERS
 
