@@ -1,10 +1,11 @@
 import {createElement} from "../utils/dom";
+import AbstractComponent from "./abstract-component";
 
-class StubMessage {
+class StubMessage extends AbstractComponent {
   constructor(selector, classNames) {
+    super();
     this._selector = selector;
     this._classNames = classNames;
-    this._element = null;
   }
   getElement() {
     if (!this._element) {
