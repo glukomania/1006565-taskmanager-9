@@ -13,7 +13,6 @@ class Task extends AbstractComponent {
   }
 
   getTemplate() {
-    console.log(this._repeatingDays);
     return `
     <article class="card card--${this._color} ${checkTrueInArray(this._repeatingDays) ? `card--repeat` : `` }">
           <div class="card__form">
