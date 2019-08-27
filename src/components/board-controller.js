@@ -17,7 +17,6 @@ import {
 import {
   filterElements
 } from "../data";
-// import {maxCardsNumberToDisplay} from "../constants";
 
 class BoardController {
   constructor(tasks) {
@@ -30,6 +29,8 @@ class BoardController {
     this._filters = null;
     this._maxCardsNumberToDisplay = 3;
     this._containter = null;
+    this._onArchiveClick = this._onArchiveClick.bind(this);
+    this._onLoadMoreClick = this._onLoadMoreClick.bind(this);
   }
 
   init() {
@@ -78,13 +79,11 @@ class BoardController {
     }
 
     // Load more cards
-    this._loadMoreButton.addEventListener(`click`, this._onLoadMoreClick.bind(this));
+    this._loadMoreButton.addEventListener(`click`, this._onLoadMoreClick);
 
     // Delete a card
 
-    this._container.addEventListener(`click`, this._onArchiveClick.bind(this));
-
-    // this._tasks.forEach((taskMock) => this._renderTask(this._container, taskMock, taskMock.id));
+    this._container.addEventListener(`click`, this._onArchiveClick);
   }
 
   _renderMenu(container) {
@@ -152,14 +151,14 @@ class BoardController {
   }
 
   _onLoadMoreClick() {
-    // if (!this._loadMoreButton) {
-    //   return;
-    // }
+    if (!this._loadMoreButton) {
+      return;
+    }
     if ((this._initialTaskNumber - this._cardsNumber) <= this._maxCardsNumberToDisplay) {
       this._loadMoreButton.style.visibility = `hidden`;
     }
     const cardsToShow = this._tasks.slice(this._cardsNumber, this._cardsNumber + this._maxCardsNumberToDisplay);
-    cardsToShow.forEach((mock) => this._renderTask(this._container, mock, mock.id));
+    cardsToShow.forEach((card) => this._renderTask(this._container, card, card.id));
     this._cardsNumber = this._cardsNumber + cardsToShow.length;
   }
 
