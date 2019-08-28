@@ -31,6 +31,9 @@ class BoardController {
     this._containter = null;
     this._onArchiveClick = this._onArchiveClick.bind(this);
     this._onLoadMoreClick = this._onLoadMoreClick.bind(this);
+    this._sortByDateUp = this._sortByDateUp.bind(this);
+    this._sortByDateDown = this._sortByDateDown.bind(this);
+    this._onSortClick = this._onSortClick.bind(this);
   }
 
   init() {
@@ -50,6 +53,8 @@ class BoardController {
 
     // sorting
     this._renderSort(sectionsPlace);
+    const sortContainer = document.querySelector(`.board__filter-list`);
+    sortContainer.addEventListener(`click`, this._onSortClick);
 
     // cards
     this._cardsContainerPlace = document.querySelector(`.board`);
@@ -171,6 +176,40 @@ class BoardController {
     for (const item of this._filters) {
       item.checked = true;
       item.disabled = true;
+    }
+  }
+  _sortByDateUp(tasks) {
+    return tasks.sort(function (a, b) {
+      if (a.dueDate > b.dueDate) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+  }
+
+  _sortByDateDown(tasks) {
+    return tasks.sort((a, b) => a.dueDate < b.dueDate ? 1 : -1);
+  }
+
+  _onSortClick(evt) {
+    const target = evt.target;
+    let sortedTasks;
+    switch (target.dataset.sort) {
+      case `default`:
+        break;
+      case `date-up`:
+        document.querySelectorAll(`.card`).forEach((item) => item.remove());
+        sortedTasks = this._tasks;
+        const dateUpTasks = this._sortByDateUp(sortedTasks);
+        dateUpTasks.slice(0, this._maxCardsNumberToDisplay).forEach((task) => this._renderTask(this._container, task, task.id));
+        break;
+      case `date-down`:
+        document.querySelectorAll(`.card`).forEach((item) => item.remove());
+        sortedTasks = this._tasks;
+        let dateDownTasks = this._sortByDateDown(sortedTasks);
+        dateDownTasks.slice(0, this._maxCardsNumberToDisplay).forEach((task) => this._renderTask(this._container, task, task.id));
+        break;
     }
   }
 
