@@ -1,33 +1,20 @@
-import {createElement, unrender} from "../utils/dom";
+import AbstractComponent from "./abstract-component";
+import {checkTrueInArray} from "../utils/predicators";
 
-class Task {
+class Task extends AbstractComponent {
   constructor({description, dueDate, tags, color, repeatingDays}, index) {
+    super();
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._tags = tags;
     this._color = color;
-    this._element = null;
     this._repeatingDays = repeatingDays;
     this._index = index;
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    unrender(this._element);
-    this._element = null;
-
-  }
-
   getTemplate() {
     return `
-    <article class="card card--${this._color} ${Object.values(this._repeatingDays).some((it) => it === true) ? `card--repeat` : `` }">
+    <article class="card card--${this._color} ${checkTrueInArray(this._repeatingDays) ? `card--repeat` : `` }">
           <div class="card__form">
             <div class="card__inner">
               <div class="card__control">

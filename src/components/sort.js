@@ -1,8 +1,9 @@
 import {createElement} from "../utils/dom";
+import AbstractComponent from "./abstract-component";
 
-class Sort {
+class Sort extends AbstractComponent {
   constructor(selector, classNames) {
-    this._element = null;
+    super();
     this._selector = selector;
     this._classNames = classNames;
   }

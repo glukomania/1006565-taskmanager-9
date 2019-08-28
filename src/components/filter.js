@@ -1,16 +1,11 @@
-class Filter {
+import AbstractComponent from "./abstract-component";
+
+class Filter extends AbstractComponent {
   constructor({name, count}, selector) {
+    super();
     this._name = name;
     this._count = count;
-    this._element = null;
     this._section = selector;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = this.getTemplate();
-    }
-    return this._element;
   }
 
   getTemplate() {
