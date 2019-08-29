@@ -2,7 +2,8 @@ import TaskList from "./task-list";
 import {
   Position,
   insertSection,
-  createElement
+  createElement,
+  unrender
 } from "../utils/dom";
 import {
   Menu,
@@ -18,6 +19,10 @@ import {
   filterElements
 } from "../data";
 
+import {
+  taskDateToSort
+} from "../utils/predicators";
+
 class BoardController {
   constructor(tasks) {
     this._tasks = tasks;
@@ -31,9 +36,7 @@ class BoardController {
     this._containter = null;
     this._onArchiveClick = this._onArchiveClick.bind(this);
     this._onLoadMoreClick = this._onLoadMoreClick.bind(this);
-    this._sortByDateUp = this._sortByDateUp.bind(this);
-    this._sortByDateDown = this._sortByDateDown.bind(this);
-    this._onSortClick = this._onSortClick.bind(this);
+    this.onChangeSort = this.onChangeSort.bind(this);
   }
 
   init() {
@@ -53,8 +56,6 @@ class BoardController {
 
     // sorting
     this._renderSort(sectionsPlace);
-    const sortContainer = document.querySelector(`.board__filter-list`);
-    sortContainer.addEventListener(`click`, this._onSortClick);
 
     // cards
     this._cardsContainerPlace = document.querySelector(`.board`);
@@ -62,7 +63,7 @@ class BoardController {
 
     this._container = document.querySelector(`.board__tasks`);
     this._initialTaskNumber = this._tasks.length;
-    this._tasks.slice(0, this._maxCardsNumberToDisplay).forEach((task) => this._renderTask(this._container, task, task.id));
+    this._tasks.slice(0, this._maxCardsNumberToDisplay).forEach((task) => this._renderTask(task));
 
     // the number of cards that is displayed NOW
     this._cardsNumber = Math.min(this._tasks.length, this._maxCardsNumberToDisplay);
@@ -107,17 +108,17 @@ class BoardController {
   }
 
   _renderSort(sectionsPlace) {
-    const sort = new Sort(`section`, [`board`, `container`]);
+    const sort = new Sort(`section`, [`board`, `container`], this.onChangeSort);
     insertSection(sectionsPlace, sort.getElement(), Position.BEFOREEND);
   }
 
-  _renderTask(container, taskMock, id) {
-    const task = new Task(taskMock, id);
+  _renderTask(taskMock) {
+    const task = new Task(taskMock, taskMock.id);
     const taskEdit = new TaskEdit(taskMock);
 
     const onEscKeyDown = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {
-        container.replaceChild(task.getElement(), taskEdit.getElement());
+        this._container.replaceChild(task.getElement(), taskEdit.getElement());
         document.removeEventListener(`keydown`, onEscKeyDown);
       }
     };
@@ -155,6 +156,12 @@ class BoardController {
     insertSection(this._container, task.getElement(), Position.BEFOREEND);
   }
 
+  onChangeSort(typeSort) {
+    const sortedTasks = taskDateToSort[typeSort]([...this._tasks.slice()]);
+    document.querySelectorAll(`.card`).forEach(unrender);
+    sortedTasks.slice(0, this._maxCardsNumberToDisplay).forEach((task) => this._renderTask(task));
+  }
+
   _onLoadMoreClick() {
     if (!this._loadMoreButton) {
       return;
@@ -170,46 +177,12 @@ class BoardController {
   _renderNoCards() {
     const stub = new StubMessage(`p`, [`board__no-tasks`]);
     this._cardsContainerPlace.appendChild(stub.getElement());
-    this._container.remove();
+    unrender(this._container);
     document.querySelector(`.board__filter-list`).style.visibility = `hidden`;
 
     for (const item of this._filters) {
       item.checked = true;
       item.disabled = true;
-    }
-  }
-  _sortByDateUp(tasks) {
-    return tasks.sort(function (a, b) {
-      if (a.dueDate > b.dueDate) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
-  }
-
-  _sortByDateDown(tasks) {
-    return tasks.sort((a, b) => a.dueDate < b.dueDate ? 1 : -1);
-  }
-
-  _onSortClick(evt) {
-    const target = evt.target;
-    let sortedTasks;
-    switch (target.dataset.sort) {
-      case `default`:
-        break;
-      case `date-up`:
-        document.querySelectorAll(`.card`).forEach((item) => item.remove());
-        sortedTasks = this._tasks;
-        const dateUpTasks = this._sortByDateUp(sortedTasks);
-        dateUpTasks.slice(0, this._maxCardsNumberToDisplay).forEach((task) => this._renderTask(this._container, task, task.id));
-        break;
-      case `date-down`:
-        document.querySelectorAll(`.card`).forEach((item) => item.remove());
-        sortedTasks = this._tasks;
-        let dateDownTasks = this._sortByDateDown(sortedTasks);
-        dateDownTasks.slice(0, this._maxCardsNumberToDisplay).forEach((task) => this._renderTask(this._container, task, task.id));
-        break;
     }
   }
 

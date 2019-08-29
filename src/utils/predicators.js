@@ -8,7 +8,14 @@ const checkTrueInArray = (object) => {
   return false;
 };
 
+const taskDateToSort = {
+  default: (tasks) => tasks, // fn. identity
+  up: (tasks) => tasks.sort((a, b) => a.dueDate > b.dueDate ? 1 : -1),
+  down: (tasks) => tasks.sort((a, b) => a.dueDate < b.dueDate ? 1 : -1),
+};
+
 
 export {
-  checkTrueInArray
+  checkTrueInArray,
+  taskDateToSort
 };
